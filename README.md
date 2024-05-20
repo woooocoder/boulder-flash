@@ -3,10 +3,12 @@ https://cs615-eaa412a1261d.herokuapp.com/
 ## Clone the Repo (Steps below)
 ### Run the front end:
 1. Open a shell and go to root directory
-2. Enter the following command "npm run start"
+2. Enter the following command "npm i"
+3. Enter the following command "npm run start"
 ### Run the backend:
 1. Open another shell and go to ./server directory
-2. Enter the following command "npm run start" 
+2. 2. Enter the following command "npm i"
+3. Enter the following command "npm run start" 
 
 
 
