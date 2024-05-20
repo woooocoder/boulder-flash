@@ -1,0 +1,39 @@
+{
+                    climbs.map((climb, index) => {
+                        return (
+                            /**
+                             * title: '',
+                                gym_rating: '',
+                                style: '',
+                                completed: '',
+                                difficulty: '',
+                                description: '',
+                                video: '',
+                             */
+                            <div key={index}>
+                                <input
+                                    name='Title'
+                                    placeholder=''
+                                    onChange={e => handleClimbChange(e, index)}
+                                    value={climb.title}
+                                />
+
+                                <input
+                                    name=''
+                                    placeholder=''
+                                    onChange={e => handleClimbChange(e, index)}
+                                    value={climb.title}
+                                />
+
+                                <input 
+                                    name='Gym Rating'
+                                    type='number'
+                                    min={0}
+                                    max={11}
+                                    value={climb.gym_rating}    
+                                />
+
+                            </div>
+                        )
+                    })
+                }
