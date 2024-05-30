@@ -1,12 +1,12 @@
 import { useState } from "react";
-import up from './../../photos/thumbs/thumbs-up.svg'
-import down from './../../photos/thumbs/thumbs-down.svg'
 import VideoUploader from "../../components/assets/VideoUploader";
 import DifficultySelector from "../../components/assets/DifficultySelector";
 import GymRatingSelector from "../../components/assets/GymRatingSelector";
 import LinkUploader from "../../components/assets/LinkUploader";
 import { useNavigate } from "react-router-dom";
 const NewSession = () => {
+    const up = `${process.env.PUBLIC_URL}/thumbs/thumbs-up.svg`
+    const down = `${process.env.PUBLIC_URL}/thumbs/thumbs-down.svg`
     // const url = 'https://cs615-eaa412a1261d.herokuapp.com/api'
     const [sessionData, setSessionData] = useState({
         title: "",

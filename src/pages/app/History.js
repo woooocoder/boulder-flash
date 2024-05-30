@@ -116,12 +116,24 @@ const History = () => {
                     {renderMenu()}
                 </div>
             </div>
+
+
             {filteredSessions().map(session => (
-                <div key={session._id}>
-                    <SessionStats {...session.stats} date={session.date} />
-                    {session.climbs.map(climb => (
-                        <SessionCard key={climb._id} {...climb} />
-                    ))}
+                <div key={session._id} className='bg-white p-1 mb-[2vh]'>
+                    <SessionStats 
+                        {...session.stats} 
+                        date={session.date} 
+                    
+                    />
+
+                    <div className='grid lg:grid-cols-3 lg:space-x-[0.5vw] relative'>
+                        {session.climbs.map(climb => (
+                            <SessionCard 
+                                key={climb._id} 
+                                {...climb}  
+                            />
+                        ))}
+                    </div>
                 </div>
             ))}
         </div>

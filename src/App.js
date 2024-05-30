@@ -10,6 +10,9 @@ import History from "./pages/app/History"
 import NewSession from "./pages/app/NewSession"
 import Stats from './pages/app/Stats'
 import Signup from "./pages/Signup"
+import Error from "./pages/404";
+
+
 
 
 
@@ -41,7 +44,8 @@ function App() {
             <Route path='/app/newSession' element={<NewSession />} />
             <Route path='/app/stats' element={<Stats />} />
             
-            <Route path='*' element={<Navigate to='/' replace />} />
+            <Route path='*' element={<Error />} />
+            {/* <Route path='*' element={<Navigate to='/' replace />} /> */}
           </Routes>
           <Navbar />
         </div>

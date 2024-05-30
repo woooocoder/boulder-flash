@@ -1,5 +1,4 @@
 import { Link } from 'react-router-dom'
-import Climbing from './../photos/climbing.svg'
 const HomePage = () => {
     return (
         <div className='pb-[65px] scroll-mb-0 mt-12'>
@@ -21,7 +20,7 @@ const HomePage = () => {
                 </p>
                   
                 <img 
-                  src={Climbing} alt=''
+                  src={`${process.env.PUBLIC_URL}/analysis/climbing.svg`} alt=''
                   className='w-[70%] mx-[15%] my-6' 
                 />
               </div>

@@ -1,0 +1,27 @@
+.btn {
+    @apply 
+        bg-[#2a313c] border-[0.15rem] border-[#eeeeee] rounded-lg bg-opacity-40
+        px-[1vw] py-[.1vh] w-[12em] 
+        hover:bg-opacity-80 hover:border-[#2a313c] ;
+        
+}
+
+.bg-light {
+    @apply bg-[#222831];
+}
+
+.bg-dark {
+    @apply bg-[#2a313c];
+}
+
+.header {
+    @apply px-[1vw] py-[.1vh] border-2 rounded-lg text-[#cc6c6c6] w-min text-2xl tracking-wide bg-[#2a313c] ;
+}
+
+.nav {
+    @apply fixed bottom-[2%] left-1/2 transform -translate-x-1/2 w-[400px] z-50 flex justify-between px-[5%] py-[1.2vh] bg-[#54585c] rounded-full;
+}
+
+.border {
+    @apply border-2
+}

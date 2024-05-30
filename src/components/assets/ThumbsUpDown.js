@@ -1,19 +1,17 @@
-import up from './../../photos/thumbs/thumbs-up.svg'
-import down from './../../photos/thumbs/thumbs-down.svg'
-
-const ThumbsUpDown = ({isComplete}) => {
+const ThumbsUpDown = (props) => {
+    const p = process.env.PUBLIC_URL
     return (
-        <div className='flex justify-center align-middle text-center mb-4 hover:bg-black hover:rounded-lg'>
+        <div className='flex items-center w-min'>
             <img 
-                src={ isComplete === true ? up : down } 
-                className='h-[75px]'
-                alt='TUD' 
+                src={ props.isComplete === true ? `${p}/thumbs/thumbs-up.svg` : `${p}/thumbs/thumbs-down` } 
+                className='h-[50px]'
+                alt=''
             />
             
             <h1 
-                className='ml-2 mt-6 text-center text-3xl font-semibold text-[#c6c6c6]'
+                className='ml-[1vw] text-center text-3xl font-semibold text-[#c6c6c6]'
             >
-                {isComplete === true ? 'Completed' : 'Failed'}
+                { props.isComplete === true ? 'Completed' : 'Failed' }
             </h1>
         </div>
     )

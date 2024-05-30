@@ -27,6 +27,7 @@ const Login = () => {
             <div className='border-2 border-[#c6c6c6] rounded-lg text-2xl w-min px-3 py-1 font-semibold'>
               Login
             </div>
+            
             <form method="post" className='mt-4 border-2 border-[#c6c6c6] p-4 rounded-lg bg-[#2a313c]' onSubmit={handleSubmit}>
                 <div className="flex justify-center my-8">
                     <GiMountainClimbing 

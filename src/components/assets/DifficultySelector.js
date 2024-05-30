@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import Easy from '../../photos/difficulty/Easy'
-import Challenging from '../../photos/difficulty/Challenging'
-import Impossible from '../../photos/difficulty/Impossible'
+import Easy from '../difficulty/Easy'
+import Challenging from '../difficulty/Challenging'
+import Impossible from '../difficulty/Impossible'
 
 const DifficultySelector = ({ onChange }) => {
     const [selectedDifficulty, setSelectedDifficulty] = useState(null);

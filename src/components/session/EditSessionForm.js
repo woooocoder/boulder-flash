@@ -1,6 +1,4 @@
 import { useState } from "react";
-import up from './../../photos/thumbs/thumbs-up.svg'
-import down from './../../photos/thumbs/thumbs-down.svg'
 import VideoUploader from "../../components/assets/VideoUploader";
 import DifficultySelector from "../../components/assets/DifficultySelector";
 import GymRatingSelector from "../../components/assets/GymRatingSelector";
@@ -206,7 +204,7 @@ const EditSessionForm = ({session, onSave}) => {
                             <div className="font-semibold text-[#c6c6c6] text-lg">Did You Complete The Climb?</div>
                             <div className="flex justify-between mx-4 mt-4">
                                 <img 
-                                    src={up}
+                                    src={`${process.env.PUBLIC_URL}/thumbs/thumbs-up`}
                                     alt="Yes"
                                     width={100}
                                     onClick={() => handleCompleteClimb(index, true)}
@@ -215,7 +213,7 @@ const EditSessionForm = ({session, onSave}) => {
                                     />
                                 
                                 <img
-                                    src={down} 
+                                    src={`${process.env.PUBLIC_URL}/thumbs/thumbs-down`} 
                                     alt="No"
                                     width={100}
                                     onClick={() => handleCompleteClimb(index, false)}

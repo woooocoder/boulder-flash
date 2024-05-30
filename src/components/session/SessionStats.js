@@ -1,16 +1,17 @@
-import mu from './../../photos/sessionStats/mu.svg'
-import crown from './../../photos/sessionStats/crown.svg'
-import clock from './../../photos/sessionStats/clock.svg'
-import pie from './../../photos/sessionStats/pie.svg'
-import climb from './../../photos/sessionStats/climb.svg'
-import up from './../../photos/thumbs/thumbs-up.svg'
-import down from './../../photos/thumbs/thumbs-down.svg'
-
-
 const SessionStats = (
     { title, session_time, avg_difficulty, max_difficulty, total_climbs, num_completed, num_failed, completion_rate, date,
       }
 ) => {
+
+    const p = process.env.PUBLIC_URL
+    const s = 'sessionStats'
+    const mu = `${p}/${s}/mu.svg`
+    const crown = `${p}/${s}/crown.svg`
+    const clock = `${p}/${s}/clock.svg`
+    const pie = `${p}/${s}/pie.svg`
+    const climb = `${p}/${s}/climb.svg`
+    const up = `${p}/thumbs/thumbs-up.svg`
+    const down = `${p}/thumbs/thumbs-down.svg`
 
     
     const sessionTime = () => {
@@ -34,7 +35,7 @@ const SessionStats = (
 
 
     return (
-        <div className='rounded-xl bg-[#2a313c] -mb-4 pt-4 pb-8'>
+        <div className='rounded-xl bg-[#2a313c] py-[2vh] mb-1'>
             <div className='flex justify-between'>
                 <div 
                     className='ml-4 font-bold text-[#c6c6c6] bg-[#1b1f25]

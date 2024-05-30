@@ -4,51 +4,60 @@ import ThumbsUpDown from '../assets/ThumbsUpDown'
 import Difficulty from '../assets/Difficulty'
 import Video from '../assets/Video'
 
-const SessionCard = (
-    { 
-        key,
-        title,
-        gymRating, 
-        style, 
-        completed, 
-        difficulty, 
-        description, 
-        video,
-        
-    }) => {
+import { FaPuzzlePiece } from 'react-icons/fa'
+import { TbCategory2 } from "react-icons/tb";
+
+import {
+    Box, Card, CardContent, CardMedia, Typography, CardActions, CardActionArea, Button,
+    Skeleton
+} from '@mui/material/'
+
+const SessionCard = (props) => {
+
     
     return (
-        <div className='flex-col w-full px-1 pb-1 pt-12 mb-6 rounded-xl bg-[#2a313c]'>
-            <div key={key} className='flex-col w-full mt-2 pt-10 pb-8 px-4 rounded-xl bg-[#1b1f25]'>
-                {/* Title */}
-                <GetRandomHold str={title} category={'Climb Name'} />
-                {/* Gym rating */}
-                <GetRandomHold str={`V${gymRating}`} category={'Gym Rating'} />
-                {/* Style */}
-                <GetRandomHold str={style} category={'Climbing Style'} />
-                {/* Completed */}
-                <ThumbsUpDown isComplete={completed} category={'Completed?'} />
-                {/* Difficulty */}
-                <Difficulty difficulty={difficulty} />
-                {/* Video component */}
-                <Video url={video} title={title} />
-                {/* <div className='bg-black rounded-lg mt-24 h-[600px] text-center'>
-                    Video
-                </div> */}
+        <>
+            <Card className='flex bg-[#2a313c] py-[2vh]' sx={{ backgroundColor: '#2a313c' }}>
+                <Box className='flex flex-col w-[50%]'>
+                    <CardContent sx={{ flex: '1 0 auto' }}>
+                        <Typography component="div" variant="h5" color='white'>
+                            {props.title ? props.title : <Skeleton /> }
+                        </Typography>
 
-                <div className='text-center tracking-tighter bg-[#2a313c] border-2 border-[#c6c6c6] rounded-lg
-                                text-[#c6c6c6] py-6 px-4 mt-6'
-                >
-                    <h2 className='font-semibold underline'>
-                        Description
-                    </h2>
-                    
-                    <p>
-                        {description}
-                    </p>
-                </div>
-            </div>
-        </div>
+                        <Typography variant="subtitle1" color="#C6C6C6" component="div">
+                            { props.description ? props.description : '' }
+                        </Typography>
+                    </CardContent>
+
+                    <Box className="px-[1vw] space-y-[1vh] w-[50%] ml-[2vw]">
+                        <GetRandomHold icon={<FaPuzzlePiece size={45} color='#C6C6C6' />} str={`V${ props.gym_rating }`} category={'Gym Rating'} />
+                        <GetRandomHold icon={<TbCategory2 size={45} color='#EEEEEE' />} str={ props.style } category={'Climbing Style'}/>
+                        {/* Needs consistent mb-[1vh] */}
+                        <ThumbsUpDown isComplete={ props.completed } category={'Completed?'} />
+                        <Difficulty difficulty={ props.difficulty } setWidth={45}/>
+                    </Box>
+
+                    <div className='flex justify-center mt-[2vh]'>
+                        <Button size="small" color="primary" className='w-min'>
+                            Edit
+                        </Button>
+
+                        <Button size="small" color="primary" className='w-min'>
+                            Share
+                        </Button>
+                    </div>
+
+                </Box>
+                {/* <CardMedia
+                    component="img"
+                    sx={{ backgroundColor: 'white' }}
+                    src={<Skeleton />}
+                    alt=""
+                /> */}
+                <Skeleton />
+                
+            </Card>
+        </>
     )
 }
 

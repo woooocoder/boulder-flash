@@ -3,6 +3,7 @@ const router = express.Router()
 
 const User  = require('./../model/model')
 const { response } = require('express')
+const { TbChevronsDownLeft } = require('react-icons/tb')
 
 // Add new user
 router.post('/newuser', async (req, res) => {
@@ -31,7 +32,7 @@ router.get('/getUser/:id', async (req, res) => {
 router.get('/getAllUsers', async (req, res) => {
     try {
         const users = await User.find();
-        
+        console.log(users)
         // Iterate through each user and set static IDs for sessions and climbs
         users.forEach(user => {
             user.sessions.forEach((session, sessionIndex) => {
