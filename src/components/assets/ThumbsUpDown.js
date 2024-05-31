@@ -3,7 +3,7 @@ const ThumbsUpDown = (props) => {
     return (
         <div className='flex items-center w-min'>
             <img 
-                src={ props.isComplete === true ? `${p}/thumbs/thumbs-up.svg` : `${p}/thumbs/thumbs-down` } 
+                src={ props.isComplete === true ? `${p}/thumbs/thumbs-up.svg` : `${p}/thumbs/thumbs-down.svg` } 
                 className='h-[50px]'
                 alt=''
             />

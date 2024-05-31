@@ -1,3 +1,4 @@
+import { Skeleton } from "@mui/material"
 const SessionStats = (
     { title, session_time, avg_difficulty, max_difficulty, total_climbs, num_completed, num_failed, completion_rate, date,
       }
@@ -33,25 +34,38 @@ const SessionStats = (
         return `${mm}/${dd}/${yyyy}`
     }
 
+    const skeleton = () => {
+        return (
+            <div className='ml-[1rem]'>    
+                <Skeleton sx={{ width: '150px', height: '100%'}}/>
+                <Skeleton sx={{ width: '75px', height: '10%'}}/>      
+            </div>
+        )
+    }
+
 
     return (
-        <div className='rounded-xl bg-[#2a313c] py-[2vh] mb-1'>
-            <div className='flex justify-between'>
-                <div 
-                    className='ml-4 font-bold text-[#c6c6c6] bg-[#1b1f25]
-                                w-min inline px-2 py-1 rounded-lg'>
-                    { handleDate() }
-                </div>
-                <div className='mr-4 bg-[#1b1f25] px-2 py-1 rounded-lg font-bold text-[#c6c6c6]'>
-                    {title}
-                </div>
-
-            </div>
+        <div className='rounded-xl bg-[#2a313c] py-[2vh] mb-[1vh]'>
+            {
+                handleDate() ? (
+                    <div className='flex justify-between'>
+                        <div 
+                            className='ml-4 font-bold text-[#c6c6c6] bg-[#1b1f25]
+                                    w-min inline px-2 py-1 rounded-lg'>
+                            { handleDate() }
+                        </div>
+                        <div className='mr-4 bg-[#1b1f25] px-2 py-1 rounded-lg font-bold text-[#c6c6c6]'>
+                            {title}
+                        </div>
+                    </div>
+                ) : <Skeleton className="w-[12vw] h-[1em]"/>
+            }
 
             <div className='flex justify-between mx-[5%] text-sm font-bold mt-2'>
                 <div 
                     className='flex-col justify-between text-[#C5C5C5]'>
                     <div className='mb-4'>
+
                         <div className='flex'>
                             <img
                                 src={crown}

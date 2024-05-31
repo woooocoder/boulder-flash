@@ -8,8 +8,7 @@ import { FaPuzzlePiece } from 'react-icons/fa'
 import { TbCategory2 } from "react-icons/tb";
 
 import {
-    Box, Card, CardContent, CardMedia, Typography, CardActions, CardActionArea, Button,
-    Skeleton
+    Box, Card, CardContent, Typography, Button, Skeleton
 } from '@mui/material/'
 
 const SessionCard = (props) => {
@@ -17,7 +16,7 @@ const SessionCard = (props) => {
     
     return (
         <>
-            <Card className='flex bg-[#2a313c] py-[2vh]' sx={{ backgroundColor: '#2a313c' }}>
+            <Card className='flex xl:flex-row flex-col items-center bg-[#2a313c] py-[2vh]' sx={{ backgroundColor: '#2a313c' }}>
                 <Box className='flex flex-col w-[50%]'>
                     <CardContent sx={{ flex: '1 0 auto' }}>
                         <Typography component="div" variant="h5" color='white'>
@@ -29,10 +28,10 @@ const SessionCard = (props) => {
                         </Typography>
                     </CardContent>
 
-                    <Box className="px-[1vw] space-y-[1vh] w-[50%] ml-[2vw]">
+                    <Box className="pr-[1vw] space-y-[1vh] w-[50%] ml-[1vw]">
+                        {/* Refactor GetRandomHold, does not use public/holds/* dir anymore */}
                         <GetRandomHold icon={<FaPuzzlePiece size={45} color='#C6C6C6' />} str={`V${ props.gym_rating }`} category={'Gym Rating'} />
                         <GetRandomHold icon={<TbCategory2 size={45} color='#EEEEEE' />} str={ props.style } category={'Climbing Style'}/>
-                        {/* Needs consistent mb-[1vh] */}
                         <ThumbsUpDown isComplete={ props.completed } category={'Completed?'} />
                         <Difficulty difficulty={ props.difficulty } setWidth={45}/>
                     </Box>
@@ -54,7 +53,7 @@ const SessionCard = (props) => {
                     src={<Skeleton />}
                     alt=""
                 /> */}
-                <Skeleton />
+                <Skeleton variant='rectangular' width='50%' height='95%' className='mx-[1vw] rounded-lg'/>
                 
             </Card>
         </>

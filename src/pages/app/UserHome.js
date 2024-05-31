@@ -6,6 +6,12 @@ import useHandleSessionActions from './../../hooks/useHandleSessionActions'
 import FilterMenu from "../../components/FilterMenu";
 import SessionItem from './../../components/SessionItem'
 import './../../styles.css'
+
+/**
+ * @todo implement dialog on view, edit and delete
+ *       https://mui.com/material-ui/react-dialog/
+ * @returns 
+ */
 const UserHome = () => {
     const { sessions, setSessions, id, fetchUser } = useFetchUser()
     const {

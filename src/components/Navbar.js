@@ -2,53 +2,71 @@ import { FiPlusCircle } from "react-icons/fi";
 import { MdHistory } from "react-icons/md";
 import { FaChartBar, FaHome } from "react-icons/fa";
 import { Link, useLocation } from "react-router-dom";
+import { useState, useEffect } from "react";
+import BottomNavigation from '@mui/material/BottomNavigation';
+import BottomNavigationAction from '@mui/material/BottomNavigationAction';
 
-/**
- * @todo userHome is not set to #00adb5 on initial start of site.
- * @returns 
- */
-const Navbar = () => { 
-    const location = useLocation()
-    const path = location.pathname 
-    const pathNames = ['/', '/login', '/signup']
-    if (pathNames.includes(path)) return null
-    
-    return (
-        <nav className="nav">
-            <Link to='/app/userHome'>
-                <FaHome
-                    className="hover:opacity-75"
-                    color={path === '/app/userHome' ? '#00adb5' : '#c6c6c6'}
-                    size={20}
-                />
-            </Link>
-            
-            <Link to='/app/newSession'>
-                <FiPlusCircle
-                    className="ml-12 hover:opacity-75" 
-                    color={path === '/app/newSession' ? '#00adb5' : '#c6c6c6'}
-                    size={20}
-                />
-            </Link>
-    
-            <Link to='/app/history'>
-                <MdHistory 
-                    className="ml-12 hover:opacity-75"
-                    color={path === '/app/history' ? '#00adb5' : '#c6c6c6'}
-                    size={23}
-                />
-            </Link>
-    
-            <Link to='/app/stats'>
-                <FaChartBar 
-                    className="ml-12 hover:opacity-75"
-                    color={path === '/app/stats' ? '#00adb5' : '#c6c6c6'}
-                    size={20}
-                />
-            </Link>  
-        </nav>
-    )
-    
+const Navbar = () => {
+    const location = useLocation();
+    const path = location.pathname;
+
+    const [value, setValue] = useState('home');
+    const routes = ['/app/userHome', '/app/stats', '/app/history', '/app/newSession']
+    useEffect(() => {
+
+        routes.map(route => {
+            if (route === path) {
+                setValue(route.substring(5))
+            }
+        })
+        
+    }, [path]);
+
+    const handleChange = (event, newValue) => {
+        setValue(newValue);
+    };
+
+    return (!routes.includes(path)) ? null : (
+        <BottomNavigation 
+            value={value} 
+            onChange={handleChange} 
+            className="flex items-center bg-[#54585c] rounded-full
+                       fixed bottom-[2%] left-1/2 transform -translate-x-1/2 w-[400px] z-50 px-[5%]">
+
+            <BottomNavigationAction
+                label="Home"
+                value="userHome"
+                icon={<FaHome size={30} />}
+                component={Link}
+                to="/app/userHome"
+            />
+
+            <BottomNavigationAction 
+                className="text-nowrap"
+                label="New Session"
+                value="newSession"
+                icon={<FiPlusCircle size={30} />}
+                component={Link}
+                to="/app/newSession"
+            />
+
+            <BottomNavigationAction
+                label="History"
+                value="history"
+                icon={<MdHistory size={30} />}
+                component={Link}
+                to="/app/history"
+            />
+
+            <BottomNavigationAction
+                label="Stats"
+                value="stats"
+                icon={<FaChartBar size={30} />}
+                component={Link}
+                to="/app/stats"
+            />
+        </BottomNavigation>
+    );
 }
 
-export default Navbar
+export default Navbar;
