@@ -11,13 +11,17 @@ const Navbar = () => {
     const path = location.pathname;
 
     const [value, setValue] = useState('home');
-    const routes = useMemo(() => ['/app/userHome', '/app/stats', '/app/history', '/app/newSession'], [])
-    useEffect(() => {
+    const routes = useMemo(() => [
+        { path: '/app/userHome', value: 'userHome' },
+        { path: '/app/stats', value: 'stats' },
+        { path: '/app/history', value: 'history' },
+        { path: '/app/newSession', value: 'newSession' }
+    ], []);
 
-        for (let route in routes) {
-            if (route === path) {
-                setValue(route.substring(5))
-            }
+    useEffect(() => {
+        const currentRoute = routes.find(route => route.path === path);
+        if (currentRoute) {
+            setValue(currentRoute.value);
         }
     }, [path, routes]);
 
@@ -25,12 +29,12 @@ const Navbar = () => {
         setValue(newValue);
     };
 
-    return (!routes.includes(path)) ? null : (
+    return !routes.some(route => route.path === path) ? null : (
         <BottomNavigation 
             value={value} 
             onChange={handleChange} 
             className="flex items-center bg-[#54585c] rounded-full
-                       fixed bottom-[2%] left-1/2 transform -translate-x-1/2 w-[400px] z-50 px-[5%]">
+                       fixed bottom-[2%] left-1/2 transform -translate-x-1/2 w-[65%] z-50 px-[5%]">
 
             <BottomNavigationAction
                 label="Home"

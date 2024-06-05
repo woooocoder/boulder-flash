@@ -41,8 +41,7 @@ const HomePage = () => {
     
 
     return (
-        <>
-        <Header />
+        <> 
         <div className='scroll-mb-0 mt-[10vh] md:mx-[10%]'>
             <div className='lg:flex justify-center items-center mb-[10vh]'>
                 <div className='flex flex-col justify-start w-full lg:w-1/2 p-4'>

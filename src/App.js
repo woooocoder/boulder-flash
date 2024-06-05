@@ -27,7 +27,7 @@ function App() {
       
       <BrowserRouter>
         <div className="flex-1 h-full px-8 pb-56 text-[#EEEEEE] lg:text-xl leading-loose bg-[#222831] w-full bottom-0 scroll-pt-0 scroll-pb-0">
-          {/* <Header /> */}
+          <Header />
           <Routes>
             <Route index path='/' element={<HomePage/>} />
 
