@@ -4,12 +4,10 @@ import Roadmap from "./pages/Roadmap"
 import HomePage from "./pages/HomePage"
 import Demo from './components/session/SessionCard'
 import Navbar from "./components/Navbar"
-import UserHome from './pages/app/UserHome'
-import Login from './pages/Login'
+import UserHome from './pages/app/UserHome' 
 import History from "./pages/app/History"
 import NewSession from "./pages/app/NewSession"
-import Stats from './pages/app/Stats'
-import Signup from "./pages/Signup"
+import Stats from './pages/app/Stats' 
 import Error from "./pages/404";
 
 
@@ -29,12 +27,9 @@ function App() {
       
       <BrowserRouter>
         <div className="flex-1 h-full px-8 pb-56 text-[#EEEEEE] lg:text-xl leading-loose bg-[#222831] w-full bottom-0 scroll-pt-0 scroll-pb-0">
-          <Header />
+          {/* <Header /> */}
           <Routes>
             <Route index path='/' element={<HomePage/>} />
-            
-            <Route path='/login' element={<Login />} />
-            <Route path='/signup' element={<Signup />} />
 
             <Route path='/roadmap' element={<Roadmap/>} />
             <Route path='/app/demo' element={<Demo />} />

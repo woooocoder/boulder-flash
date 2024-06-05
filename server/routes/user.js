@@ -2,16 +2,15 @@ const express = require('express')
 const router = express.Router()
 
 const User  = require('./../model/model')
-const { response } = require('express')
-const { TbChevronsDownLeft } = require('react-icons/tb')
+const { response } = require('express') 
 
 // Add new user
 router.post('/newuser', async (req, res) => {
+    const { email, password, name } = req.body
     try {
-        const newUser = new User(req.body)
-        const saveData = await newUser.save()
-        res.status(200).json(saveData)
-        
+        const user = await User.signup(email, name, password)
+        res.status(200).json({email, user})
+        console.log(user)
     } catch (e) {
         response.send(500).json({message: e.message})
     }

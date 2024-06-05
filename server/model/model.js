@@ -76,7 +76,7 @@
 
 // module.exports = mongoose.model('User', User) 
 const mongoose = require('mongoose');
-
+const bcrypt = require('bcrypt')
 const ClimbSchema = new mongoose.Schema({ 
     title: {
         type: String,
@@ -136,5 +136,20 @@ const UserSchema = new mongoose.Schema({
     },
     sessions: [SessionSchema]
 });
+
+// https://www.youtube.com/watch?v=mjZIv4ey0ps
+// Static signup method
+UserSchema.statics.signup = async function(email, name, password) {
+    const exists = await this.findOne({ email })
+    if (exists) {
+        throw Error('Email already in use'); // Make UserAlreadyExistsException
+    } 
+
+    const salt = await bcrypt.genSalt(10)
+    const hash = await bcrypt.hash(password, salt)
+
+    const user = await this.create({ email, name, password: hash})
+    return user
+}   
 
 module.exports = mongoose.model('User', UserSchema);

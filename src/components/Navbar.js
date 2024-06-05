@@ -2,7 +2,7 @@ import { FiPlusCircle } from "react-icons/fi";
 import { MdHistory } from "react-icons/md";
 import { FaChartBar, FaHome } from "react-icons/fa";
 import { Link, useLocation } from "react-router-dom";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import BottomNavigation from '@mui/material/BottomNavigation';
 import BottomNavigationAction from '@mui/material/BottomNavigationAction';
 
@@ -11,16 +11,15 @@ const Navbar = () => {
     const path = location.pathname;
 
     const [value, setValue] = useState('home');
-    const routes = ['/app/userHome', '/app/stats', '/app/history', '/app/newSession']
+    const routes = useMemo(() => ['/app/userHome', '/app/stats', '/app/history', '/app/newSession'], [])
     useEffect(() => {
 
-        routes.map(route => {
+        for (let route in routes) {
             if (route === path) {
                 setValue(route.substring(5))
             }
-        })
-        
-    }, [path]);
+        }
+    }, [path, routes]);
 
     const handleChange = (event, newValue) => {
         setValue(newValue);

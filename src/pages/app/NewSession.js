@@ -219,9 +219,8 @@ const NewSession = () => {
 
 
     return (
-        <div className="bg-inherit pb-12">
-            
-        <div className="mt-12 font-mono bg-[#2a313c] rounded-lg pt-4 px-4">
+        <div className="bg-inherit h-screen">
+        <div className="mt-[10vh] font-mono bg-[#2a313c] rounded-lg p-[1vh]">
             <h1 className="text-2xl tracking-wider font-semibold border-2 border-[#c6c6c6] text-[#c6c6c6] 
             rounded-lg w-min px-3 py-1 bg-inherit inline">
                 New Session
