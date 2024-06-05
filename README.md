@@ -9,14 +9,14 @@
 3. Enter the following command "npm run start" 
 
 ## Current Tasks
-##Short Term
+## Short Term
 ### Set up back end functionality for login and signup forms. Make corresponding get requests in front end on submission 
 ### Salt and hash passwords
 
 ### Design a front end for UserHome
 ### Design a front end for History
 
-##Long Term
+## Long Term
 ### Allow users to add other users as friends
 ### A feed that users can share a climb to (globally or to friends). Other users can like and comment
 ### A user friendly stats page. Better visuals. 
