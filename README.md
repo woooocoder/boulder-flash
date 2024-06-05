@@ -6,8 +6,9 @@
 ## Create a branch named BRANCHNAME
 `git checkout -b BRANCHNAME`
 ## Edit code ... 
-## Stage and commit your changes
+## Stage your changes
 `git add .`
+## Commit your changes
 `git commit -m "Description of changes made"`
 ## Push changes to git repo
 `git push origin BRANCHNAME`
