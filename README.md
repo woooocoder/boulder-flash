@@ -1,4 +1,4 @@
-## Current Tasks
+# Current Tasks
 ## Short Term
 ### Set up back end functionality for login and signup forms. Make corresponding get requests in front end on submission 
 ### Salt and hash passwords
