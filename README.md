@@ -1,4 +1,6 @@
-# Current Tasks
+# Current Task
+## Implementing NewSession using MaterialUI. Making responsive with mediaquery hook. All fields are stateful!
+
 ## Short Term
 ### Set up back end functionality for login and signup forms. Make corresponding get requests in front end on submission 
 ### Salt and hash passwords
