@@ -28,12 +28,10 @@ const handleSubmit = (event) => {
 
 const Login = ({ toggleForm }) => {
 return (
-    <main className="py-[4vh] bg-inherit">
+    <main className="bg-inherit">
         <Sheet
           sx={{
-            width: 300,
-            mx: 'auto', 
-            my: 4, 
+            width: 300,  
             py: 3, 
             px: 2, 
             display: 'flex',
@@ -75,7 +73,7 @@ return (
               placeholder="password"
             />
           </FormControl>
-          <Button sx={{ mt: 1 }} endDecorator={<Link to='app/userhome'>Log In</Link>} />
+          <Button sx={{ mt: 1, backgroundColor: '#00adb5'}} endDecorator={<Link to='app/userhome' sx={{color: 'white'}}>Log In</Link>} />
           <Typography
             endDecorator={<Link onClick={toggleForm}>Sign up</Link>}
             fontSize="sm"

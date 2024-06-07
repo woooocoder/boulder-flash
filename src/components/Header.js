@@ -60,7 +60,7 @@ function Header() {
   };
 
   return (
-    <AppBar position="static" className='rounded-full'>
+    <AppBar position="static" className='rounded-full' sx={{ backgroundColor: '#00adb5'}}>
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           {/* <AdbIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} /> */}

@@ -78,12 +78,10 @@ const Signup = ({ toggleForm }) => {
   };
 
   return (
-    <main className="py-[4vh] bg-inherit font-mono">
+    <main className="bg-inherit font-mono">
       <Sheet
         sx={{
           width: 300,
-          mx: 'auto',
-          my: 4,
           py: 3,
           px: 2,
           display: 'flex',
@@ -151,7 +149,18 @@ const Signup = ({ toggleForm }) => {
           />
           {errors.password && <Typography color="danger">{errors.password}</Typography>}
         </FormControl>
-        <Button sx={{ mt: 1 }} onClick={handleSubmit} endDecorator={<Link to='/app/userhome'>Sign Up</Link>}  />
+        <Button 
+          sx={{ mt: 1, backgroundColor: '#00adb5' }} 
+          onClick={handleSubmit} 
+          endDecorator={
+            <Link 
+              to='/app/userhome' 
+              sx={{ color: 'white' }}
+            >
+              Sign Up
+            </Link>
+          }    
+        />
         <Typography
           endDecorator={<Link onClick={toggleForm}>Login</Link>}
           fontSize="sm"
