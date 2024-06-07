@@ -1,8 +1,8 @@
 import { useState } from "react";
-import VideoUploader from "../../components/assets/VideoUploader";
-import DifficultySelector from "../../components/assets/DifficultySelector";
-import GymRatingSelector from "../../components/assets/GymRatingSelector";
-import LinkUploader from "../../components/assets/LinkUploader";
+import VideoUploader from "../assets/VideoUploader";
+import DifficultySelector from "../assets/DifficultySelector";
+import GymRatingSelector from "../assets/GymRatingSelector";
+import LinkUploader from "../assets/LinkUploader";
 // import { useNavigate } from "react-router-dom";
 const EditSessionForm = ({session, onSave}) => {
     const [sessionData, setSessionData] = useState({

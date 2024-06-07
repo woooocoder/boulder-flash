@@ -1,27 +1,35 @@
-import React, { useState } from "react";
+import React from "react";
 import Easy from '../difficulty/Easy'
 import Challenging from '../difficulty/Challenging'
 import Impossible from '../difficulty/Impossible'
+import { Slider } from "@mui/joy";
+const DifficultySelector = ({ value, onChange }) => { 
+    const marks = [
+        {
+            label: Easy,
+            value: 2
+        },
+        {
+            label: <img src={Challenging} />,
+            value: 6,
+        },
+        {
+            label: Impossible,
+            value: 10
+        }
+    ] 
 
-const DifficultySelector = ({ onChange }) => {
-    const [selectedDifficulty, setSelectedDifficulty] = useState(null);
-    const arr = []
-    arr[2] = 'Easy'
-    arr[6] = 'Challenging'
-    arr[10] = 'Impossible'
-
-    const handleDifficultyChange = (difficulty) => {
-        setSelectedDifficulty(difficulty);
+    const handleDifficultyChange = (e, difficulty) => { 
         onChange(difficulty);
     };
 
     return (
-        <div className="bg-[#2a313c] py-7 px-2 rounded-lg">
+        <div>
             <div className="flex font-semibold text-lg opacity-80 mb-6">
-                Difficulty <p className="text-sm opacity-85 transform translate-y-1 translate-x-2">(0-10)</p>
+                Difficulty
             </div>
 
-            <div className="flex-col justify-between mx-2 py-4 mb-8 text-[#c6c6c6] text-center [&_*]:w-full 
+            {/* <div className="flex-col justify-between mx-2 py-4 mb-8 text-[#c6c6c6] text-center [&_*]:w-full 
                 [&_*]:h-[80px] text-md font-medium">
                 <div 
                     onClick={() => handleDifficultyChange(2)} 
@@ -43,9 +51,19 @@ const DifficultySelector = ({ onChange }) => {
                         <Impossible setWidth={40} />
                         <div>Impossible</div>
                 </div>
-            </div>
+            </div> */}
 
-            <div className="text-center text-xl font-semibold text-[#c6c6c6]">{arr[selectedDifficulty] ? arr[selectedDifficulty] : ''}</div>
+            <Slider
+                defaultValue={1}
+                step={1}
+                min={1}
+                max={3}
+                valueLabelDisplay="auto"
+                value={value}
+                onChange={handleDifficultyChange}
+                marks={marks}
+            />
+            {/* <div className="text-center text-xl font-semibold text-[#c6c6c6]">{arr[selectedDifficulty] ? arr[selectedDifficulty] : ''}</div> */}
         </div>
     );
 };

@@ -4,9 +4,8 @@ const GymRatingSelector = ({ value, onChange }) => {
     const ratings = [0,1,2,3,4,5,6,7,8,9,10];
 
     const handleRatingChange = (rating) => {
-        onChange(rating);
-        console.log(rating)
-    };
+        onChange(rating)
+    }
 
     return (
         <div className="bg-[#2a313c] px-2 pt-3 pb-7 rounded-lg">

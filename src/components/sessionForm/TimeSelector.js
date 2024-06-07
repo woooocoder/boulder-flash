@@ -2,8 +2,9 @@ import { FormControl, FormHelperText, Input } from "@mui/joy";
 import { InfoOutlined } from "@mui/icons-material";
 
 const TimeSelector = (props) => {
-    const { name, value, onChange, label } = props
-    const error = value === '00:00'
+    const { name, value, onChange, label, other } = props
+    const error = value === other
+
     return (
         <div>
             <FormControl error={error}>
@@ -21,7 +22,7 @@ const TimeSelector = (props) => {
                 { error && (
                     <FormHelperText>
                         <InfoOutlined />
-                        Select a time
+                        Times cannot match
                     </FormHelperText>
                 )}
             </FormControl>

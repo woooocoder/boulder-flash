@@ -1,5 +1,5 @@
 import { FaThumbsDown, FaThumbsUp, FaTrophy } from "react-icons/fa";
-import EditSessionForm from "./session/EditSessionForm";
+import EditSessionForm from "./sessionForm/EditSessionForm";
 import { handleDate } from "../utils/dateUtils";
 import { percentageColor } from "../utils/percentageUtils";
 import { bestClimb } from "../utils/bestClimbUtils";
