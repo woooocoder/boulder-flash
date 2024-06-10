@@ -21,27 +21,29 @@ const GymRatingSlider = ({ value, onChange }) => {
 
     return (
         <>
-            { !isSmallScreen ? (
-                <Slider
-                    defaultValue={1}
-                    step={1}
-                    max={10}
-                    valueLabelDisplay="auto"
-                    value={value}
-                    onChange={(e, newValue) => onChange(newValue)}
-                    marks={marks}
-                    name='ratingSlider'
-                />
-            ) : (
-                <Input 
-                    type="number" 
-                    value={value} 
-                    onChange={(e, newValue) => onChange(newValue)} 
-                    min={0}
-                    max={10}
-                    name='ratingSlider' 
-                />
-            )}
+            { 
+                !isSmallScreen ? (
+                    <Slider
+                        defaultValue={1}
+                        step={1}
+                        max={10}
+                        valueLabelDisplay="auto"
+                        value={value}
+                        onChange={(e, newValue) => onChange(newValue)}
+                        marks={marks}
+                        name='ratingSlider'
+                    />
+                ) : (
+                    <Input 
+                        type="number" 
+                        value={value} 
+                        onChange={(e, newValue) => onChange(newValue)} 
+                        min={0}
+                        max={10}
+                        name='ratingSlider' 
+                    />
+                )
+            }
         </>
     ) 
 }

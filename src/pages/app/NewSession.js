@@ -1,10 +1,13 @@
 import { useState } from "react";
 import VideoUploader from "../../components/assets/VideoUploader";
 import DifficultySelector from "../../components/assets/DifficultySelector"; 
+import BackToTop from "../../components/BackToTop";
 import LinkUploader from "../../components/assets/LinkUploader";
+import Footer from "../../components/Footer";
 import { useNavigate } from "react-router-dom"; 
 import TimeSelector from '../../components/sessionForm/TimeSelector'
 import GymRatingSlider from "../../components/sessionForm/GymRatingSlider"; 
+import { useMediaQuery } from "@mui/material";
 import { 
     FormControl, 
     FormHelperText,
@@ -138,6 +141,17 @@ const NewSession = () => {
             climbs: prevData.climbs.filter((_, i) => i !== index)
         }))
     }
+
+    const handleVideoUpload = (index, video) => {
+        const updatedClimbs = [...sessionData.climbs];
+        updatedClimbs[index].video = video;
+        setSessionData(prevData => ({
+            ...prevData,
+            climbs: updatedClimbs
+        }));
+
+        console.log(video)
+    };
     
     const navigate = useNavigate()
     const handleSubmit = async (e) => {
@@ -221,7 +235,8 @@ const NewSession = () => {
                         placeholder="Title"
                         name='title' 
                         value={value}
-                        onChange={handleChange} />
+                        onChange={handleChange}
+                        className="shadow-lg" />
                         { 
                             error && (
                                 <FormHelperText>
@@ -244,6 +259,7 @@ const NewSession = () => {
                     <Input
                         type="date"
                         name="date"
+                        className="w-min"
                         onChange={handleInputChange}
                         value={sessionData.date}
                         slotProps={{
@@ -264,337 +280,183 @@ const NewSession = () => {
         )
     }
 
+    const isSmallScreen = useMediaQuery('(max-width:768px)');
+
+    /**
+     * @todo make delete button a Draggable component. This will make the button throw a popup when clicked. 
+     * Then confirm whether the user wants to delete the climb. As of now, the button just deletes the climb, which is not user friendly.
+     */
     return (
-        <div className="bg-inherit h-screen">
-        <div className="mt-[10vh] font-mono bg-[#2a313c] rounded-lg p-[1vh]">
-            <h1 className="text-2xl tracking-wider font-semibold border-2 border-[#c6c6c6] text-[#c6c6c6] 
-            rounded-lg w-min px-3 py-1 bg-inherit inline">
-                New Session
-            </h1>
-            <form onSubmit={handleSubmit} className="flex-col [&>*]:mb-4 mt-4"> 
         
-                { titleInput(sessionData.title, handleInputChange, 3, 32) }        
-                { dateInput() } 
-
-                <div className="flex justify-between">
-                    <TimeSelector 
-                        name="startTime" 
-                        label="Start Time"
-                        value={sessionData.startTime} 
-                        onChange={handleInputChange} 
-                    />
-
-                    <TimeSelector 
-                        name="endTime"
-                        label="End Time" 
-                        value={sessionData.endTime} 
-                        onChange={handleInputChange}     
-                        other={sessionData.startTime}
-                    />
-                </div>
-
-                { sessionData.climbs.map((climb, index) => (
-                    <div key={index} className="mt-[4vh] bg-[#222831] rounded-lg p-[2vh] space-y-[2vh]">
-                        <div className="flex justify-between">
-                            <div className="font-semibold text-lg opacity-80">
-                                Climb {index + 1}
-                            </div>
-                            <div 
-                                className="flex justify-end bg-red-600 px-3 py-1 rounded-lg font-bold text-sm w-min"
-                                onClick={() => deleteClimb(index)}
-                                >
-                                    Delete
-                            </div>
-                        </div>
-                        
-                        { titleInput(climb.title, (e) => handleClimbInputChange(index, e), 3, 32)}
-
-                        <GymRatingSlider 
-                            key={index}
-                            value={climb.gym_rating}
-                            onChange={(rating) => handleGymRatingChange(index, rating)}
+        <div className={`${isSmallScreen ? 'mx-0' : 'mx-[10%]'} lg:mx-[15%] shadow-lg rounded-lg px-[5%]`}>
+            <div className="mt-[8vh] font-mono rounded-lg p-[1vh]">
+                <h1 className="text-2xl tracking-wider font-semibold border-2 
+                rounded-lg w-min px-3 py-1 bg-inherit inline">
+                    New Session
+                </h1>
+                <form onSubmit={handleSubmit} className="flex-col space-y-[2vh] mt-[2vh]"> 
+        
+                    { titleInput(sessionData.title, handleInputChange, 3, 32) }        
+        
+                    { dateInput() } 
+        
+                    <div className="flex justify-between">
+                        <TimeSelector 
+                            name="startTime" 
+                            label="Start Time"
+                            value={sessionData.startTime} 
+                            onChange={handleInputChange} 
                         />
+    
+                        <TimeSelector 
+                            name="endTime"
+                            label="End Time" 
+                            value={sessionData.endTime} 
+                            onChange={handleInputChange}     
+                            other={sessionData.startTime}
+                        />
+                    </div>
+        
+                    { sessionData.climbs.map((climb, index) => (
+                        <div key={index} className="rounded-lg p-[2vh] space-y-[2vh]">
+                            <div className="border-t-2 my-[6vh]"></div>
+                            <div className="flex justify-between">
+                                <div className="font-semibold text-lg opacity-80">
+                                    Climb {index + 1}
+                                </div>
+                              
 
-                        <RadioGroup 
-                                defaultValue={undefined} 
-                                name="radio-buttons"
-                        >
-                            <FormControl error={() => climb.completed === undefined}>
-                                <div className="flex justify-between">
-                                    <Radio 
-                                        value={true} 
-                                        label="Yes" 
-                                        color="success" 
-                                        onClick={() => handleCompleteClimb(index, true)}
+                                <Button 
+                                    variant="outlined" 
+                                    color="danger"
+                                    onClick={() => deleteClimb(index)}>
+                                    Delete
+                                </Button>
+                            </div>
+                            
+                            { titleInput(climb.title, (e) => handleClimbInputChange(index, e), 3, 32)}
+                    
+                            <div>
+                                <div className="font-semibold text-lg text-[#c6c6c6]">Gym Rating</div>
+                                <div className={isSmallScreen ? '' : 'mx-[5%]'}>
+                                    <GymRatingSlider 
+                                        key={index}
+                                        value={climb.gym_rating}
+                                        onChange={(rating) => handleGymRatingChange(index, rating)}
                                     />
-                                    
+                                </div>
+                            </div>
+    
+                            <RadioGroup 
+                                    defaultValue={undefined} 
+                                    name="radio-buttons"
+                            >
+                                <FormControl error={() => climb.completed === undefined}>
+                                    <div>
+                                        Did you complete the climb? 
+                                    </div>
+                                    <div className="flex justify-start">
+                                        <Radio 
+                                            value={true} 
+                                            label="Yes" 
+                                            color="success" 
+                                            onClick={() => handleCompleteClimb(index, true)}
+                                            className="mr-[2vw]"
+                                        />
+                                        
                                         <Radio 
                                             value={false}
                                             label="No" 
                                             color="danger" 
                                             onClick={() => handleCompleteClimb(index, false)}    
                                         />   
-                                </div>
-                                { 
-                                    climb.completed === undefined && (
-                                        <FormHelperText>
-                                            <InfoOutlined />
-                                            Did you complete the climb?
-                                        </FormHelperText>
-                                    )
-                                } 
-                            </FormControl>
-                        </RadioGroup>
-                        
-                        {/* <div className="mb-12 bg-[#2a313c] rounded-lg pt-5 mx-1 pb-6">
-                            <div className="ml-2 font-semibold mb-3 text-lg text-[#c6c6c6]">Style</div>
-                            <textarea
-                                className="bg-inherit w-full h-24 px-3 py-2"
-                                placeholder="..."
-                                name="style"
-                                value={climb.style}
-                                onChange={(e) => handleClimbInputChange(index, e)}
-                            />
-                        </div> */}
-                        <div>
-                            <div className="font-semibold text-lg text-[#c6c6c6]">Style</div>
-                            <Textarea 
-                                name="style" 
-                                value={climb.style} 
-                                onChange={(e) => handleClimbInputChange(index, e)}
-                                endDecorator={
-                                    <Typography
-                                        level="body-xs"
-                                        sx={{ml: 'auto'}}
-                                    >
-                                        {climb.style.length} of 30 characters
-                                    </Typography>
-                                } 
-                            />
-                        </div>
-
-                        {/* <div className="mb-12 bg-[#2a313c] rounded-lg pt-5 mx-1 pb-6">
-                            <div className="ml-2 font-semibold mb-3 text-lg text-[#c6c6c6]">Description</div>
-                            <textarea
-                                className="bg-inherit w-full h-24 px-3 py-2"
-                                placeholder="..."
-                                name="description"
-                                value={climb.description}
-                                onChange={(e) => handleClimbInputChange(index, e)}
-                            />
-                        </div> */}
-
-                        <div>
-                            <div className="font-semibold text-lg text-[#c6c6c6]">Description</div>
-                            <Textarea 
-                                name="description" 
-                                value={climb.description} 
-                                onChange={(e) => handleClimbInputChange(index, e)}
-                                endDecorator={
-                                    <Typography
-                                        level="body-xs"
-                                        sx={{ml: 'auto'}}
-                                    >
-                                        {climb.description.length} of 500 characters
-                                    </Typography>
-                                }  
+                                    </div>
+                                    { 
+                                        climb.completed === undefined && (
+                                            <FormHelperText>
+                                                <InfoOutlined />
+                                                Select "Yes" or "No"
+                                            </FormHelperText>
+                                        )
+                                    } 
+                                </FormControl>
+                            </RadioGroup>
+                                
+                            
+                            <div>
+                                <div className="font-semibold text-lg text-[#c6c6c6]">Style</div>
+                                <Textarea 
+                                    name="style" 
+                                    value={climb.style} 
+                                    onChange={(e) => handleClimbInputChange(index, e)}
+                                    endDecorator={
+                                        <Typography
+                                            level="body-xs"
+                                            sx={{ml: 'auto'}}
+                                        >
+                                            {climb.style.length} of 30 characters
+                                        </Typography>
+                                    } 
+                                />
+                            </div>
+                            
+                            <div>
+                                <div className="font-semibold text-lg text-[#c6c6c6]">Description</div>
+                                <Textarea 
+                                    name="description" 
+                                    value={climb.description} 
+                                    onChange={(e) => handleClimbInputChange(index, e)}
+                                    endDecorator={
+                                        <Typography
+                                            level="body-xs"
+                                            sx={{ml: 'auto'}}
+                                        >
+                                            {climb.description.length} of 500 characters
+                                        </Typography>
+                                    }  
+                                />
+                            </div>
+                            
+                            <div className="font-semibold text-lg text-[#c6c6c6]">Difficulty</div>
+                            <div className={isSmallScreen ? '' : 'mx-[5%]'}>
+                                <DifficultySelector 
+                                    key={index}
+                                    value={climb.difficulty} 
+                                    onChange={(difficulty) => handleDifficultyChange(index, difficulty)}     
+                                />
+                            </div>
+                           
+                            <VideoUploader
+                                index={index}
+                                onVideoUpload={(video) => handleVideoUpload(index, video)} 
                             />
                         </div>
-
-                        <DifficultySelector 
-                            key={index}
-                            value={climb.difficulty} 
-                            onChange={(difficulty) => handleDifficultyChange(index, difficulty)}     
-                        />
-                        {/* <DifficultySelector onChange={(difficulty) => handleDifficultyChange(index, difficulty)}/> */}
-                        <VideoUploader index={index} />
-                        <LinkUploader index={index} onUrlUpload={handleUrlUpload} />
+                    ))}
+                
+                    <div className="flex justify-center mt-[8vh] pb-[8vh] space-x-[1vw]">
+                        <Button 
+                            variant="solid" 
+                            startDecorator={<Add />}
+                            onClick={addClimbForm}
+                        >
+                            Add A Climb
+                        </Button>
+                
+                        <Button
+                            variant="solid"
+                            type="submit"
+                            startDecorator={<Save />}
+                        >
+                            Save Session
+                        </Button>
                     </div>
-                ))}
-
-                <div className="flex justify-center my-[2vh] space-x-[1vw]">
-                    <Button 
-                        variant="solid" 
-                        startDecorator={<Add />}
-                        onClick={addClimbForm}
-                    >
-                        Add A Climb
-                    </Button>
-
-                    <Button
-                        variant="solid"
-                        type="submit"
-                        startDecorator={<Save />}
-                    >
-                        Save Session
-                    </Button>
-                </div>
-            </form>
-        </div> 
+                </form>
+            </div> 
+            <div className="mt-[8vh]"></div>
+            <BackToTop />
+            
         </div>
     );
 };
 
 export default NewSession;
-
-/**
- * return (
-        <div className="bg-inherit h-screen">
-        <div className="mt-[10vh] font-mono bg-[#2a313c] rounded-lg p-[1vh]">
-            <h1 className="text-2xl tracking-wider font-semibold border-2 border-[#c6c6c6] text-[#c6c6c6] 
-            rounded-lg w-min px-3 py-1 bg-inherit inline">
-                New Session
-            </h1>
-            <form onSubmit={handleSubmit} className="flex-col [&>*]:mb-4 mt-4">
-                <div className="rounded-lg px-4 py-2 bg-[#222831] mt-8">
-                    <div className="font-semibold text-lg opacity-80">
-                        Title
-                    </div>
-                    <input
-                        className="bg-inherit w-full border-b-2 border-b-[#c6c6c6]"
-                        type="text"
-                        name="title"
-                        value={sessionData.title}
-                        onChange={handleInputChange}
-                    />
-                </div>
-
-                <div className="rounded-lg px-4 py-2 bg-[#222831]">
-                    <div className="font-semibold text-lg opacity-80">
-                        Date
-                    </div>
-                    <input
-                        className="bg-inherit w-full border-b-2 border-b-[#c6c6c6]"
-                        type="date"
-                        name="date"
-                        value={sessionData.date}
-                        onChange={handleInputChange}
-                    />
-                </div>
-
-                <div className="flex justify-between text-center bg-[#222831] w-full py-3 rounded-lg text-[#c6c6c6]">
-                    <div className="px-4">
-                        <div className="font-semibold text-lg">Start Time</div>
-                        <input
-                            className="bg-[#2a313c] rounded-lg" 
-                            type="time"
-                            name="startTime"
-                            value={sessionData.startTime}
-                            onChange={handleInputChange} />
-                    </div>
-
-                    <div className="px-4">
-                        <div className="font-semibold text-lg">End Time</div>
-                        <input 
-                            className="bg-[#2a313c] rounded-lg"
-                            type="time"
-                            name="endTime"
-                            value={sessionData.endTime}
-                            onChange={handleInputChange} />
-                    </div>
-                </div>
-
-                {sessionData.climbs.map((climb, index) => (
-                    <div key={index} className="mt-8 bg-[#222831] rounded-lg p-4">
-                        <div className="flex justify-between">
-                            <div className="font-semibold text-lg opacity-80">
-                                Climb {index + 1}
-                            </div>
-                            <div 
-                                className="flex justify-end bg-red-600 px-3 py-1 rounded-lg font-bold text-sm w-min"
-                                onClick={() => deleteClimb(index)}
-                                >
-                                    Delete
-                            </div>
-                        </div>
-                        <div className="bg-[#2a313c] px-2 pt-3 pb-7 rounded-lg mt-4 mb-12">
-                            <div className="font-semibold text-[#c6c6c6]">Title</div>
-                            <input
-                                className="bg-inherit w-full border-opacity-20 border-b-2 border-[#c6c6c6]"
-                                type="text"
-                                name="title"
-                                maxLength={16}
-                                placeholder="..."
-                                value={climb.title}
-                                onChange={(e) => handleClimbInputChange(index, e)}
-                                />
-                        </div>
-
-                        <GymRatingSelector 
-                            value={climb.gym_rating} 
-                            onChange={(rating) => handleGymRatingChange(index, rating)}
-                        />
-
-                        <div className="mb-12 bg-[#2a313c] mt-12 px-2 pt-5 pb-7 rounded-lg">
-                            <div className="font-semibold text-[#c6c6c6] text-lg">Did You Complete The Climb?</div>
-                            <div className="flex justify-between mx-4 mt-4">
-                                <img 
-                                    src={up}
-                                    alt="Yes"
-                                    width={100}
-                                    onClick={() => handleCompleteClimb(index, false)}
-                                    style={{cursor: 'pointer'}}
-                                    className={`${!climb.completed ? 'bg-green-600 rounded-lg' : ''}`}
-                                    />
-                                
-                                <img
-                                    src={down} 
-                                    alt="No"
-                                    width={100}
-                                    onClick={() => handleCompleteClimb(index, true)}
-                                    style={{cursor: 'pointer'}}
-                                    className={`${!climb.completed ? '' : 'bg-red-500 rounded-lg'}`}
-                                    />
-                            </div>
-                        </div>
-
-                        <div className="mb-12 bg-[#2a313c] rounded-lg pt-5 mx-1 pb-6">
-                            <div className="ml-2 font-semibold mb-3 text-lg text-[#c6c6c6]">Style</div>
-                            <textarea
-                                className="bg-inherit w-full h-24 px-3 py-2"
-                                placeholder="..."
-                                name="style"
-                                value={climb.style}
-                                onChange={(e) => handleClimbInputChange(index, e)}
-                            />
-                        </div>
-
-                        <div className="mb-12 bg-[#2a313c] rounded-lg pt-5 mx-1 pb-6">
-                            <div className="ml-2 font-semibold mb-3 text-lg text-[#c6c6c6]">Description</div>
-                            <textarea
-                                className="bg-inherit w-full h-24 px-3 py-2"
-                                placeholder="..."
-                                name="description"
-                                value={climb.description}
-                                onChange={(e) => handleClimbInputChange(index, e)}
-                            />
-                        </div>
-
-                        
-                        <DifficultySelector onChange={(difficulty) => handleDifficultyChange(index, difficulty)}/>
-                        <VideoUploader index={index} />
-                        <LinkUploader index={index} onUrlUpload={handleUrlUpload} />
-                    </div>
-                ))}
-
-                <div className="flex justify-between mt-8 pb-8">
-                    <button
-                        type="button"
-                        onClick={addClimbForm}
-                        className="mr-2 px-3 py-1 bg-[#ae7218] rounded-lg text-[#2a313c] font-bold border-2 border-[#2a313c] hover:border-[#c6c6c6] hover:text-[#c6c6c6]"
-                    >
-                        Add A Climb
-                    </button>
-
-                    <button
-                        type="submit"
-                        className="bg-[#00adb5] px-3 py-1 rounded-lg text-[#2a313c] font-bold border-2 border-[#2a313c] hover:border-[#c6c6c6] hover:text-[#c6c6c6]"
-                    >
-                        Save Session
-                    </button>
-                </div>
-            </form>
-        </div> 
-        </div>
-    );
- */

@@ -17,6 +17,7 @@ const TimeSelector = (props) => {
                     name={name}
                     value={value}
                     onChange={onChange}
+                    className="shadow-lg"
                 />
 
                 { error && (
