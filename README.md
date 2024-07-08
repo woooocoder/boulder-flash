@@ -1,5 +1,5 @@
 # Current Task
-## Implementing NewSession using MaterialUI. Making responsive with mediaquery hook. All fields are stateful!
+## Give user feedback when interacting with components in NewSession form
 
 ## Short Term
 ### Set up back end functionality for login and signup forms. Make corresponding get requests in front end on submission 
