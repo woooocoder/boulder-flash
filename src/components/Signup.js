@@ -1,13 +1,7 @@
 import React, { useState } from 'react';
-import Sheet from '@mui/joy/Sheet';
-import Typography from '@mui/joy/Typography';
-import FormControl from '@mui/joy/FormControl';
-import FormLabel from '@mui/joy/FormLabel';
-import Input from '@mui/joy/Input';
-import Button from '@mui/joy/Button';
-import Link from '@mui/joy/Link';
-import { Box } from '@mui/joy';
-import { redirect } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import { Box, Link, Button, Input, FormLabel, FormControl, Typography, Sheet, CircularProgress } from '@mui/joy';
+import validator, { normalizeEmail } from 'validator';
 
 const Signup = ({ toggleForm }) => {
   const [formValues, setFormValues] = useState({
@@ -22,7 +16,11 @@ const Signup = ({ toggleForm }) => {
     email: '',
     password: '',
     confirmPassword: '',
+    existingEmail: '',
+    criticalError: ''
   });
+
+  const navigate = useNavigate();
 
   const validateUsername = (username) => {
     if (username.length < 5 || username.length > 16) {
@@ -32,23 +30,42 @@ const Signup = ({ toggleForm }) => {
   };
 
   const validateEmail = (email) => {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(email)) {
+    if (!validator.isEmail(email)) {
       return 'Invalid email format.';
     }
     return '';
   };
 
-  const validatePassword = (password, confirmPassword) => {
-    if (password !== confirmPassword) {
-      return 'Passwords do not match.';
-    }
+  const validatePassword = (password) => {
     if (password.length < 8) {
       return 'Password must be at least 8 characters long.';
     }
     return '';
   };
 
+  const validateConfirmPassword = (password, confirmPassword) => {
+    if (password !== confirmPassword) {
+      return 'Passwords do not match.';
+    }
+
+    return ''
+  }
+
+  const validData = () => {
+    const usernameError = validateUsername(formValues.username);
+    const emailError = validateEmail(formValues.email);
+    const passwordError = validatePassword(formValues.password);
+    const validateConfirmPasswordError = validateConfirmPassword(formValues.password, formValues.confirmPassword)
+    setErrors({
+      username: usernameError,
+      email: emailError,
+      password: passwordError,
+      confirmPassword: validateConfirmPasswordError
+    });
+    
+    return !usernameError && !emailError && !passwordError;
+  };
+  
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormValues({
@@ -56,26 +73,52 @@ const Signup = ({ toggleForm }) => {
       [name]: value,
     });
   };
-
-  const handleSubmit = (e) => {
+  
+  const [loading, setLoading] = useState(false)
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    const usernameError = validateUsername(formValues.username);
-    const emailError = validateEmail(formValues.email);
-    const passwordError = validatePassword(formValues.password, formValues.confirmPassword);
+    if (validData()) {
+      setLoading(true)
+      try {
+        const response = await fetch('http://localhost:5050/api/signUp', {
+          method: 'POST',
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            email: normalizeEmail(formValues.email),
+            password: formValues.password,
+            name: formValues.username
+          })
+        });
 
-    setErrors({
-      username: usernameError,
-      email: emailError,
-      password: passwordError,
-      confirmPassword: passwordError,
-    });
+        setLoading(false)
 
-    if (!usernameError && !emailError && !passwordError) {
-        console.log('Form submitted', formValues);
+        if (response.status === 409 || response.status === 500) {
+          const result = await response.json().catch(() => null)
+          if (result) {
+            if (result.message) {
+              setErrors({ ...errors, existingEmail: result.message })
+            }
+            if (result.err) {
+              alert(result.err)
+            }
+          }
 
-        return redirect('/app/userhome')
+        } else if (response.ok) {
+          setTimeout(() => navigate('/app/userHome/'), 3000)
+        } 
+      } catch (error) {
+        setLoading(false)
+        setErrors({ ...errors, form: 'An error occurred during sign up process' });
+        console.error(error);
+      }
+    } else {
+      console.log('Invalid data');
     }
   };
+
 
   return (
     <main className="bg-inherit font-mono">
@@ -92,14 +135,12 @@ const Signup = ({ toggleForm }) => {
         }}
         variant="outlined"
       >
-        <Box sx={{
-            display:'flex', justifyContent:'center'
-          }}>
-            <img 
-              src={`${process.env.PUBLIC_URL}/analysis/climbing.svg`} alt=''
-              className='w-[80%]' 
-            />
-          </Box>
+        <Box sx={{ display: 'flex', justifyContent: 'center' }}>
+          <img 
+            src={`${process.env.PUBLIC_URL}/analysis/climbing.svg`} alt=''
+            className='w-[80%]' 
+          />
+        </Box>
         <div>
           <Typography level="h4" component="h1">
             <b>Welcome!</b>
@@ -127,6 +168,7 @@ const Signup = ({ toggleForm }) => {
             onChange={handleChange}
           />
           {errors.email && <Typography color="danger">{errors.email}</Typography>}
+          {errors.existingEmail && <Typography color="danger">{errors.existingEmail}</Typography>}
         </FormControl>
         <FormControl>
           <FormLabel>Password</FormLabel>
@@ -137,6 +179,7 @@ const Signup = ({ toggleForm }) => {
             value={formValues.password}
             onChange={handleChange}
           />
+          {errors.password && <Typography color="danger">{errors.password}</Typography>}
         </FormControl>
         <FormControl>
           <FormLabel>Confirm Password</FormLabel>
@@ -147,20 +190,15 @@ const Signup = ({ toggleForm }) => {
             value={formValues.confirmPassword}
             onChange={handleChange}
           />
-          {errors.password && <Typography color="danger">{errors.password}</Typography>}
+          { errors.confirmPassword && <Typography color="danger">{ errors.confirmPassword }</Typography>}
         </FormControl>
         <Button 
           sx={{ mt: 1, backgroundColor: '#00adb5' }} 
           onClick={handleSubmit} 
-          endDecorator={
-            <Link 
-              to='/app/userhome' 
-              sx={{ color: 'white' }}
-            >
-              Sign Up
-            </Link>
-          }    
-        />
+          
+        >
+          { loading ? <CircularProgress size='24' /> : 'Sign Up'}
+        </Button>
         <Typography
           endDecorator={<Link onClick={toggleForm}>Login</Link>}
           fontSize="sm"

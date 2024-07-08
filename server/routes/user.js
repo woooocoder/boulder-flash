@@ -1,21 +1,63 @@
 const express = require('express')
+const User = require('./../model/model')
+const bcrypt = require('bcrypt')
 const router = express.Router()
-
-const User  = require('./../model/model')
 const { response } = require('express') 
 
-// Add new user
-router.post('/newuser', async (req, res) => {
+// Sign up
+router.post('/signup', async (req, res) => {
+    // email, password and name validation middleware needed
     const { email, password, name } = req.body
+    
     try {
-        const user = await User.signup(email, name, password)
-        res.status(200).json({email, user})
-        console.log(user)
+        let user = await User.findOne({ email })
+        
+        if (user) {
+            return res.status(409).json({ message: "This email is already linked to an account"})
+        } 
+
+        const salt = await bcrypt.genSalt(10)
+        const hash = await bcrypt.hash(password, salt)
+
+        user = await User.create({ name: name, email: email, password: hash })
+        console.log('id:', this.user._id)
+        res.status(200).json({ message: "Account created successfully!", id: user._id })
     } catch (e) {
-        response.send(500).json({message: e.message})
+        response.send(500).json({ message: e.message })
     }
 })
 
+// Login 
+router.post('/login', async (req, res) => {
+    const { email, password } = req.body
+    try {
+        const user = await User.findOne(
+            {
+                email: email,
+                password: password
+            }
+        )
+        if (user === null) {
+            return res.status(400).json({ err: "The email you entered isn't connected to an account. Please register an account."})
+        }
+    } catch (e) {
+        response.send(500).json({ res: "couldn't sign in", message: e.message })
+    }
+    console.log('signed in', password)
+    // generate a cookie
+})
+
+router.get('/home', async (req, res) => {
+    try {
+        const id = req.body.id
+        const user = await User.findById(id).populate('sessions')
+        
+        res.json(user.sessions)
+
+    } catch (e) {
+        response.send(400).json({message: e.message}) 
+    }
+})
 // Get user by id
 router.get('/getUser/:id', async (req, res) => {
     try {
@@ -50,27 +92,27 @@ router.get('/getAllUsers', async (req, res) => {
     }
 });
 
-router.delete('/deleteUser/:id', async (req, res) => {
-    try {
-        const id = req.body.id
-        const user = await User.findByIdAndDelete(id)
-        res.send(`${user.name} has been deleted`)
-    } catch (e) {
-        response.send(400).json({ message: e.message })
-    }
-})
+// router.delete('/deleteUser/:id', async (req, res) => {
+//     try {
+//         const id = req.body.id
+//         const user = await User.findByIdAndDelete(id)
+//         res.send(`${user.name} has been deleted`)
+//     } catch (e) {
+//         response.send(400).json({ message: e.message })
+//     }
+// })
 
 
 // Reset db
-router.delete('/XdeleteAllUsers', async (req, res) => {
-    try {
-        const data = await User.find()
-        User.deleteMany(data)
-        res.send('All users have been deleted')
-    } catch (e) {
-        response.send(400).json({ message: e.message })
-    }
-})
+// router.delete('/XdeleteAllUsers', async (req, res) => {
+//     try {
+//         const data = await User.find()
+//         User.deleteMany(data)
+//         res.send('All users have been deleted')
+//     } catch (e) {
+//         response.send(400).json({ message: e.message })
+//     }
+// })
 
 // Get session by id 
 router.get('/user/:id/getSessions', async (req, res) => {

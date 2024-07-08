@@ -59,6 +59,8 @@ function Header() {
     setAnchorElUser(null);
   };
 
+  const location = window.location.pathname
+
   return (
     <AppBar position="static" className='rounded-full' sx={{ backgroundColor: '#00adb5'}}>
       <Container maxWidth="xl">
@@ -155,7 +157,7 @@ function Header() {
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+                { location !== '/' && <Avatar src="/broken-image.jpg" />}
               </IconButton>
             </Tooltip>
             <Menu

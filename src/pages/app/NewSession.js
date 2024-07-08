@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import VideoUploader from "../../components/assets/VideoUploader";
 import DifficultySelector from "../../components/assets/DifficultySelector"; 
 import BackToTop from "../../components/BackToTop";
@@ -70,25 +70,6 @@ const NewSession = () => {
         }));
     };
     
-    // const handleVideoUpload = (index, video) => {
-    //     const updatedClimbs = [...sessionData.climbs];
-    //     updatedClimbs[index].video = video;
-    //     setSessionData(prevData => ({
-    //         ...prevData,
-    //         climbs: updatedClimbs
-    //     }));
-    // };
-
-    const handleUrlUpload = (index, url) => {
-        const updatedClimbs = [...sessionData.climbs];
-        updatedClimbs[index].video = url
-        setSessionData(prevData => ({
-            ...prevData,
-            climbs: updatedClimbs
-        }))
-    }
-    
-    
     
     const addClimbForm = () => {
         setSessionData((prevData) => ({
@@ -106,6 +87,13 @@ const NewSession = () => {
                 }
             ]
         }));
+
+        setHoldsState(prevData => ({
+            ...prevData,
+            [sessionData.climbs.length]: {
+                
+            }
+        }))
     };
 
     const handleGymRatingChange = (index, change) => {
@@ -152,6 +140,46 @@ const NewSession = () => {
 
         console.log(video)
     };
+
+    /** @todo */
+    const setHoldsState = () => -1
+
+    const handleHoldChange = (index, hold) => {
+        const climbs = [...sessionData.climbs];
+        const currentHolds = climbs[index].holds || [];
+        const holdsSet = new Set(currentHolds);
+
+        if (holdsSet.has(hold)) {
+            holdsSet.delete(hold);
+        } else if (holdsSet.size < 4) {
+            holdsSet.add(hold);
+        }
+
+        climbs[index].holds = Array.from(holdsSet);
+        setSessionData((prevData) => ({
+            ...prevData,
+            climbs
+        }));
+
+        console.log(holdsSet)
+    };
+
+    const handleStyleChange = (index, style) => {
+        handleClimbInputChange(index, { 
+            target: 
+                { 
+                    name: 'style',
+                    value: style
+                }
+            });
+    }
+
+    /** @todo */
+    const [focusedIndex, setFocusedIndex] = useState(null);
+    const handleFocus = (index) => {
+        setFocusedIndex(index);
+    } 
+    const handleBlur = () => setFocusedIndex(null);
     
     const navigate = useNavigate()
     const handleSubmit = async (e) => {
@@ -230,9 +258,9 @@ const NewSession = () => {
         const error = value.length < minLen || value.length > maxLen 
         return (
             <>
+                <div className="font-semibold text-lg text-[#c6c6c6]">Title</div>
                 <FormControl error={error}>
                     <Input 
-                        placeholder="Title"
                         name='title' 
                         value={value}
                         onChange={handleChange}
@@ -280,7 +308,17 @@ const NewSession = () => {
         )
     }
 
-    const isSmallScreen = useMediaQuery('(max-width:768px)');
+    const [sliderFocusIndex, setSliderFocusIndex] = useState(null);
+
+    const handleSliderFocus = (index) => {
+        setSliderFocusIndex(index);
+    };
+
+    const handleSliderBlur = () => {
+        setSliderFocusIndex(null);
+    };
+
+    const isSmallScreen = useMediaQuery('(max-width:768px)'); 
 
     /**
      * @todo make delete button a Draggable component. This will make the button throw a popup when clicked. 
@@ -303,14 +341,14 @@ const NewSession = () => {
                     <div className="flex justify-between">
                         <TimeSelector 
                             name="startTime" 
-                            label="Start Time"
+                            label={<div className="font-semibold text-lg text-[#c6c6c6]">Start Time</div>}
                             value={sessionData.startTime} 
                             onChange={handleInputChange} 
                         />
     
                         <TimeSelector 
                             name="endTime"
-                            label="End Time" 
+                            label={<div className="font-semibold text-lg text-[#c6c6c6]">End Time</div>}
                             value={sessionData.endTime} 
                             onChange={handleInputChange}     
                             other={sessionData.startTime}
@@ -337,55 +375,129 @@ const NewSession = () => {
                             { titleInput(climb.title, (e) => handleClimbInputChange(index, e), 3, 32)}
                     
                             <div>
-                                <div className="font-semibold text-lg text-[#c6c6c6]">Gym Rating</div>
+                                <label
+                                    htmlFor={`gym-rating-${index}`} 
+                                    className={`font-semibold text-lg ${sliderFocusIndex === index ? 'text-black' : 'text-[#c6c6c6]'}`}>
+                                        Gym Rating
+                                </label>
                                 <div className={isSmallScreen ? '' : 'mx-[5%]'}>
                                     <GymRatingSlider 
                                         key={index}
+                                        name="gym-rating"
                                         value={climb.gym_rating}
                                         onChange={(rating) => handleGymRatingChange(index, rating)}
+                                        onFocus={() => handleSliderFocus(index)}
+                                        onBlur={() => handleSliderBlur() }
                                     />
                                 </div>
                             </div>
     
-                            <RadioGroup 
-                                    defaultValue={undefined} 
-                                    name="radio-buttons"
-                            >
-                                <FormControl error={() => climb.completed === undefined}>
-                                    <div>
-                                        Did you complete the climb? 
-                                    </div>
-                                    <div className="flex justify-start">
-                                        <Radio 
-                                            value={true} 
-                                            label="Yes" 
-                                            color="success" 
-                                            onClick={() => handleCompleteClimb(index, true)}
-                                            className="mr-[2vw]"
-                                        />
-                                        
-                                        <Radio 
-                                            value={false}
-                                            label="No" 
-                                            color="danger" 
-                                            onClick={() => handleCompleteClimb(index, false)}    
-                                        />   
-                                    </div>
-                                    { 
-                                        climb.completed === undefined && (
-                                            <FormHelperText>
-                                                <InfoOutlined />
-                                                Select "Yes" or "No"
-                                            </FormHelperText>
-                                        )
-                                    } 
-                                </FormControl>
-                            </RadioGroup>
+                            <div>
+                                <label
+                                    className="font-semibold text-lg text-[#c6c6c6]">
+                                        Completed?
+                                </label>
+                                <RadioGroup 
+                                        defaultValue={undefined} 
+                                        name="radio-buttons"
+                                >
+                                    <FormControl error={() => climb.completed === undefined}>
+                                        <div
+                                            className={`flex justify-start ${isSmallScreen ? '' : 'mx-[5%]'}`}>
+                                            <Radio 
+                                                value={true} 
+                                                label="Yes" 
+                                                color="success" 
+                                                onClick={() => handleCompleteClimb(index, true)}
+                                                className="mr-[2vw]"
+                                            />
+
+                                            <Radio 
+                                                value={false}
+                                                label="No" 
+                                                color="danger" 
+                                                onClick={() => handleCompleteClimb(index, false)}    
+                                            />   
+                                        </div>
+                                        { 
+                                            climb.completed === undefined && (
+                                                <FormHelperText>
+                                                    <InfoOutlined />
+                                                    Select "Yes" or "No"
+                                                </FormHelperText>
+                                            )
+                                        } 
+                                    </FormControl>
+                                </RadioGroup>
+                            </div>
                                 
                             
-                            <div>
+                            <div className="space-y-[2vh]">
                                 <div className="font-semibold text-lg text-[#c6c6c6]">Style</div>
-                                <Textarea 
+                                <div className="flex justify-center space-x-[2vw]">
+                                    { 
+                                        ['Overhang', 'Vertical', 'Slab'].map((style) => (
+                                            <Button
+                                                className="flex flex-col items-center shadow-lg"
+                                                key={style}
+                                                name={style}
+                                                onClick={() => handleStyleChange(index, style)}
+                                                color=""
+                                            >   
+                                                <img 
+                                                    src={`${process.env.PUBLIC_URL}/${style.toLowerCase()}.svg`} 
+                                                    className="w-[3vw]"     
+                                                />
+                                                <div>{style}</div>
+                                            </Button>
+                                    ))}
+                                </div> 
+
+                                <div className="flex justify-center space-x-[2vw]">
+                                {
+                                    [
+                                        {
+                                            style: 'Jugs',
+                                            index: 4,
+                                            rotation: '-rotate-90'
+                                        },
+                                        {
+                                            style: 'Crimps',
+                                            index: 1,
+                                            rotation: '-rotate-90'
+
+                                        },
+                                        {
+                                            style: 'Slopers',
+                                            index: 5,
+                                            rotation: 'rotate-180'
+                                        },
+                                        {
+                                            style: 'Pinches',
+                                            index: 8,
+                                            rotation: '-rotate-[10deg]'
+                                        }
+                                    ].map((hold) => (
+                                        <Button
+                                            className="flex flex-col items-center shadow-lg"
+                                            key={hold}
+                                            name={hold.style}
+                                            onClick={() => handleHoldChange(index, hold)}
+                                            color=""
+                                        >
+                                            <img
+                                                src={`${process.env.PUBLIC_URL}/holds/hold${hold.index}.svg`}
+                                                className={`w-[3vw] ${hold.rotation}`}
+                                            />
+
+                                            <div>
+                                                { hold.style }
+                                            </div>
+                                        </Button>
+                                    ))
+                                }
+                                </div>
+                                {/* <Textarea 
                                     name="style" 
                                     value={climb.style} 
                                     onChange={(e) => handleClimbInputChange(index, e)}
@@ -397,15 +509,23 @@ const NewSession = () => {
                                             {climb.style.length} of 30 characters
                                         </Typography>
                                     } 
-                                />
+                                /> */}
                             </div>
                             
                             <div>
-                                <div className="font-semibold text-lg text-[#c6c6c6]">Description</div>
-                                <Textarea 
+                                <label 
+                                    className={`font-semibold text-lg ${focusedIndex === index ? 'text-black' : 'text-[#c6c6c6]'}`}
+                                    htmlFor={`description-${index}`}
+                                >
+                                    Description
+                                </label>
+                                <Textarea
+                                    id={`description-${index}`} 
                                     name="description" 
                                     value={climb.description} 
                                     onChange={(e) => handleClimbInputChange(index, e)}
+                                    onFocus={() => handleFocus(index)}
+                                    onBlur={() => handleBlur()}
                                     endDecorator={
                                         <Typography
                                             level="body-xs"

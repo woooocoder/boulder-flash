@@ -1,18 +1,33 @@
-const ThumbsUpDown = (props) => {
-    const p = process.env.PUBLIC_URL
+import ThumbUpIcon from '@mui/icons-material/ThumbUp';
+import ThumbDownIcon from '@mui/icons-material/ThumbDown'; 
+const ThumbsUpDown = ( props ) => {
     return (
         <div className='flex items-center w-min'>
-            <img 
-                src={ props.isComplete === true ? `${p}/thumbs/thumbs-up.svg` : `${p}/thumbs/thumbs-down.svg` } 
-                className='h-[50px]'
-                alt=''
-            />
+            { 
+                props.isComplete ? 
+                    <ThumbUpIcon 
+                        color='success'
+                        sx={{ fontSize: '30px'}}
+                    /> 
+                    : 
+                    <ThumbDownIcon 
+                        color='error'
+                        sx={{ fontSize: '30px'}}
+                    /> 
+            }
+
             
-            <h1 
-                className='ml-[1vw] text-center text-3xl font-semibold text-[#c6c6c6]'
-            >
-                { props.isComplete === true ? 'Completed' : 'Failed' }
-            </h1>
+            { 
+                !props.hideText && 
+                <h1 
+                    className='ml-[1vw] text-center text-3xl font-semibold text-[#c6c6c6]'
+                >
+                        <>
+                            {  props.isComplete === true ? 'Completed' : 'Failed' }
+                        </>
+                </h1>
+            }
+            
         </div>
     )
 }

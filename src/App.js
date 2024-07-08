@@ -9,6 +9,7 @@ import History from "./pages/app/History"
 import NewSession from "./pages/app/NewSession"
 import Stats from './pages/app/Stats' 
 import Error from "./pages/404";
+import BackToTop from "./components/BackToTop";
 
 
 
@@ -42,6 +43,7 @@ function App() {
             <Route path='*' element={<Error />} />
             {/* <Route path='*' element={<Navigate to='/' replace />} /> */}
           </Routes>
+          <BackToTop />
           <Navbar />
         </div>
       </BrowserRouter>

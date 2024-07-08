@@ -5,6 +5,7 @@ import useFetchUser from './../../hooks/useFetchUser'
 import useHandleSessionActions from './../../hooks/useHandleSessionActions'
 import FilterMenu from "../../components/FilterMenu";
 import SessionItem from './../../components/SessionItem'
+import { Avatar } from "@mui/joy";
 import Header from "../../components/Header";
 import Navbar from "../../components/Navbar"
 import '../../styles.css'
@@ -15,7 +16,7 @@ import '../../styles.css'
  * @returns 
  */
 const UserHome = () => {
-    const { sessions, setSessions, id, fetchUser } = useFetchUser()
+    const { sessions, setSessions, fetchUser } = useFetchUser()
     const {
         handleDeleteSession,
         handleSaveSession,
@@ -33,39 +34,102 @@ const UserHome = () => {
     const openPopup = (sessionId) => setSelectedSessionId(sessionId)
     const closePopup = () => setSelectedSessionId(null);
     const openEdit = (sessionId) => setEditedSessionId(sessionId);
-    const closeEdit = () => setEditedSessionId(null);    
+    const closeEdit = () => setEditedSessionId(null); 
+    
+    const userHasNoSessions = () => {
+        if (filteredSessions.length === 0) {
+            return (
+                <div>
+                    <div className="h-1/2 bg-gray-700">
+                        <div className="flex flex-col items-start ml-[2vw]">
+                            <div className="flex">
+                                <Avatar src="/broken-image.jpg" />
+                                <div className="flex flex-col">
+                                    <div>Username</div>
+                                    <div>Location</div>
+                                </div>
+                            </div>
+
+                            <div className="flex">
+                                <div>
+                                    Climbs
+                                </div>
+
+                                <div>
+                                    Sessions
+                                </div>
+
+                                <div>
+                                    % Completed
+                                </div>
+
+                                <div>
+                                    Climbs Viewed
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className="flex justify-between">
+                            <div className="flex">
+                                <div>
+                                    Name's Climbs
+                                </div>
+
+                                <button>
+                                    By date
+                                </button>
+
+                                <button>
+                                    By difficulty
+                                </button>
+                            </div>
+
+                            <div>
+                                Climbs with videos onl
+                            </div>
+                        </div>
+
+                        <div>
+
+                        </div>
+                    </div>
+                </div>
+            )
+        }
+    }
 
     return (
         <>
             <div className="flex-col pt-12 font-mono">
                 <div className="flex justify-between mx-2">
-                    <h1 className="header"> Home </h1>
+                    <h1 className="text-2xl tracking-wider font-semibold border-2 
+                    rounded-lg w-min px-3 py-1 bg-inherit inline">
+                        Home
+                    </h1>
                     <div className="w-min flex justify-end z-50">
                         <FilterMenu toggle={toggle} handleToggle={handleToggle} handleFilterChange={handleFilterChange} />
                     </div>
                 </div>
 
-                {/* <ActionsMenu /> */}
-
-
-
-                <div className="mt-8 grid lg:grid-cols-3 relative">
-                    {filteredSessions().map((session) => (
-                        <SessionItem
-                            key={session._id}
-                            session={session}
-                            climb={climb}
-                            openPopup={openPopup}
-                            openEdit={openEdit}
-                            handleDeleteSession={handleDeleteSession}
-                            handleSaveSession={handleSaveSession}
-                            selectedSessionId={selectedSessionId}
-                            editedSessionId={editedSessionId}
-                            closePopup={closePopup}
-                            closeEdit={closeEdit}
-                        />
-                    ))}
-                </div>
+                { filteredSessions.length === 0 ? userHasNoSessions() : 
+                    <div className="mt-8 grid lg:grid-cols-3 relative">
+                        {filteredSessions().map((session) => (
+                            <SessionItem
+                                key={session._id}
+                                session={session}
+                                climb={climb}
+                                openPopup={openPopup}
+                                openEdit={openEdit}
+                                handleDeleteSession={handleDeleteSession}
+                                handleSaveSession={handleSaveSession}
+                                selectedSessionId={selectedSessionId}
+                                editedSessionId={editedSessionId}
+                                closePopup={closePopup}
+                                closeEdit={closeEdit}
+                            />
+                        ))}
+                    </div>
+                }
             </div>
         </>
     );

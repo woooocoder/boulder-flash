@@ -1,4 +1,6 @@
+import { useMediaQuery } from "@mui/material"
 const Video = ({url, title}) => {
+    const minWidth = useMediaQuery('(min-width:768px)')
     return (    
         <iframe 
             src={url}
@@ -9,9 +11,8 @@ const Video = ({url, title}) => {
             className="video-iframe"
             style={{
                 width: '100%',
-                height: '100%',
-                borderRadius: '8px',
-                marginTop: '12px'
+                height: `${ minWidth ? '768px' : '518px' }`,
+                borderRadius: '8px', 
             }}
             >
         </iframe>

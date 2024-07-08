@@ -57,13 +57,17 @@ const VideoUploader = ({ index, onVideoUpload }) => {
             </div> 
 
             <FormControl error={error}>
-                <div className="flex justify-between">
-                    File: { videoFile ? 'uploaded' : 'null' }
-                    <Button
-                        onClick={() => setVideoFile(null)}>
-                        Remove File
-                    </Button>
-                </div>
+                { 
+                    videoFile && (
+                    <div className="flex justify-between">
+                        File: { videoFile ? 'uploaded' : 'null' }
+                        <Button
+                            onClick={() => setVideoFile(null)}>
+                            Remove File
+                        </Button>
+                    </div>
+                    )
+                }
 
                 {
                     error  && (
@@ -81,11 +85,11 @@ const VideoUploader = ({ index, onVideoUpload }) => {
                     value={videoUrl}
                     onChange={handleUrlChange} 
                     endDecorator={
-                        <Button
+                        videoUrl !== "" && (<Button
                             onClick={() => setVideoUrl('')}
                         >
                             Reset
-                        </Button>
+                        </Button>)
                     }
                     disabled={videoFile}
                     className="w-full border border-[#c5c5c5] rounded-lg"
