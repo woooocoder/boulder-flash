@@ -80,7 +80,7 @@ const Signup = ({ toggleForm }) => {
     if (validData()) {
       setLoading(true)
       try {
-        const response = await fetch('http://localhost:5050/api/signUp', {
+        const response = await fetch('http://localhost:5050/api/o/signUp', {
           method: 'POST',
           headers: {
             'Accept': 'application/json',
@@ -95,7 +95,9 @@ const Signup = ({ toggleForm }) => {
 
         setLoading(false)
 
-        if (response.status === 409 || response.status === 500) {
+        if (response.ok) {
+          navigate('/app/userHome')
+        } else {
           const result = await response.json().catch(() => null)
           if (result) {
             if (result.message) {
@@ -105,13 +107,10 @@ const Signup = ({ toggleForm }) => {
               alert(result.err)
             }
           }
-
-        } else if (response.ok) {
-          setTimeout(() => navigate('/app/userHome/'), 3000)
-        } 
+        }
       } catch (error) {
         setLoading(false)
-        setErrors({ ...errors, form: 'An error occurred during sign up process' });
+        setErrors({ ...errors, form: 'An error occurred during sign up process.' });
         console.error(error);
       }
     } else {

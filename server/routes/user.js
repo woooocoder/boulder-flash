@@ -1,51 +1,8 @@
 const express = require('express')
 const User = require('./../model/model')
-const bcrypt = require('bcrypt')
+const bcrypt = require('bcrypt') 
 const router = express.Router()
 const { response } = require('express') 
-
-// Sign up
-router.post('/signup', async (req, res) => {
-    // email, password and name validation middleware needed
-    const { email, password, name } = req.body
-    
-    try {
-        let user = await User.findOne({ email })
-        
-        if (user) {
-            return res.status(409).json({ message: "This email is already linked to an account"})
-        } 
-
-        const salt = await bcrypt.genSalt(10)
-        const hash = await bcrypt.hash(password, salt)
-
-        user = await User.create({ name: name, email: email, password: hash })
-        console.log('id:', this.user._id)
-        res.status(200).json({ message: "Account created successfully!", id: user._id })
-    } catch (e) {
-        response.send(500).json({ message: e.message })
-    }
-})
-
-// Login 
-router.post('/login', async (req, res) => {
-    const { email, password } = req.body
-    try {
-        const user = await User.findOne(
-            {
-                email: email,
-                password: password
-            }
-        )
-        if (user === null) {
-            return res.status(400).json({ err: "The email you entered isn't connected to an account. Please register an account."})
-        }
-    } catch (e) {
-        response.send(500).json({ res: "couldn't sign in", message: e.message })
-    }
-    console.log('signed in', password)
-    // generate a cookie
-})
 
 router.get('/home', async (req, res) => {
     try {
@@ -81,7 +38,7 @@ router.get('/getAllUsers', async (req, res) => {
                 
                 session.climbs.forEach((climb, climbIndex) => {
                     climb.id = climbIndex; // Set climb ID based on index
-                });
+                }); 
             });
         });
 
