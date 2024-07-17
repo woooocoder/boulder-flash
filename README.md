@@ -44,7 +44,9 @@ Create a pull request, provide a title and description explaning what changes we
 ### Run the backend:
 1. Open another shell and go to ./server directory
 2. `npm i`
-3. `npm run start` 
+3. `npm run start`
+4. Open another shell and go to ./server directory
+5. `npm run auth`
 
 
 
