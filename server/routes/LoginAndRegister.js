@@ -5,10 +5,23 @@ const router = express.Router()
 const { response } = require('express') 
 const jwt = require('jsonwebtoken')
 // const limiter = reuire rateLimit
+
+router.get('/user', authenticateToken, async (req, res) => {
+    try {
+        const user = await User.findById(req.user.user.id).select('-password') // exclude password
+        if (!user) {
+            return res.status(404).json({ err: "User not found"})
+        }
+        res.json(user)
+    } catch (e) {
+        console.error(e.message)
+        res.status(500).json({ err: "Server Error"})
+    }
+})
+
 // Login 
 router.post('/login', async (req, res) => {
-    const { email, password } = req.body;
-    console.log(`login attempt: \n ${email}\n\n`);
+    const { email, password } = req.body; 
 
     try {
         const user = await User.findOne({ email: email });
@@ -17,40 +30,24 @@ router.post('/login', async (req, res) => {
             return res.status(401).json({ err: "The email you entered isn't connected to an account. Please register an account."});
         }
 
-        if (password !== user.password) {
-            return res.status(401).json({ err: "Invalid email or password." });
-        }
-
         const isMatch = await bcrypt.compare(password, user.password)
         if (!isMatch) {
             return res.status(400).json({ err: "Invalid email or password."})
-        }
+        } 
 
         const payload = {
-            user: {
-                id: user.id,
-                sessions: user.sessions,
-                name: user.name
-            }
-        }
+            user
+        } 
 
-        jwt.sign(
+        const accessToken = jwt.sign(
             payload,
-            process.env.JWT_SECRET,
-            { expiresIn: '30 days' },
-            (err, token) => {
-                if (err) throw err
-                res.status(200).json({ message: "Successfully signed in.", token: token })
-            }
-        )
-        
-
-        // res.status(200).json({ message: "Successfully signed in.", token: "" });
+            process.env.JWT_SECRET, 
+        );
+        res.status(200).json({ message: "Successfully signed in.", accessToken: accessToken, payload: payload })
     } catch (e) {
         console.error(e.message);
         res.status(500).json({ res: "Server Error. Couldn't sign in.", message: e.message });
-    }
-    console.log(`${email} signed in`);
+    } 
 });
 
 router.post('/signup', async (req, res) => {
@@ -89,5 +86,21 @@ router.post('/signup', async (req, res) => {
         response.send(500).json({ message: e.message })
     }
 })
+
+function authenticateToken(req, res, next) { 
+    const authHeader = req.headers['authorization']
+    // [Bearer, TOKEN], token is at [1]
+    const token = authHeader && authHeader.split(' ')[1] 
+    if (token == null) {
+        return res.sendStatus(401)
+    }
+
+    jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
+        if (err) return res.sendStatus(403) // invalid token
+        req.user = user 
+        next()
+    })
+}
+
 
 module.exports = router

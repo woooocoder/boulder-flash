@@ -4,7 +4,7 @@ import validator from 'validator';
 import { useNavigate } from 'react-router-dom';
 const Login = ({ toggleForm }) => {
   const navigate = useNavigate()
-  const [signInErr, setSignInErr] = useState({})
+  const [signInErr, setSignInErr] = useState(null)
   const [form, setForm] = useState({
     email: '',
     password: ''
@@ -14,14 +14,6 @@ const Login = ({ toggleForm }) => {
     const { name, value } = e.target
     setForm({ ...form, [name]: value })
   }
-
-  const handleInvalidForm = (email, password) => {
-    if (password.length === 0) {
-      setSignInErr('Please enter your password')
-    } else if (!email) {
-      setSignInErr('Please enter a valid email address.') 
-    }
-  } 
 
   const handleSubmit = async (event) => {
     event.preventDefault()
@@ -43,18 +35,19 @@ const Login = ({ toggleForm }) => {
           })
         })
 
-        const json = await response.json()
-        console.log(json)
+        const result = await response.json().catch(() => null)
+        console.log(result)
         
         if (response.ok) { 
-          localStorage.setItem('token', json.token)
+          localStorage.setItem('token', result.token)
           navigate('/app/userHome') // sign in 
         } else { 
-          setSignInErr(json.err)
-          console.error('Login Failed: ', json.err)
+          setSignInErr(result.err)
+          console.error('Login Failed: ', result.err)
         }
       } catch (e) {
         console.log(e)
+        setSignInErr('Oops! Internal error. Please try again in a few minutes.')
       }   
     } 
   }
