@@ -1,9 +1,13 @@
+Prototype & Analysis: https://www.figma.com/design/kFgh81W7f6Jyq8B7tjaEvu/Prototype?node-id=0-1&t=xCvQKznqJKHC9Dw3-1
+
 # Current Task
-## Give user feedback when interacting with components in NewSession form
+### Set up an auth server and a controller server, scale them separately.
+### Store Auth tokens in DB - kill in the time given
+### Initial User Home page - user has 0 saved sessions  
 
 ## Short Term
 ### Set up back end functionality for login and signup forms. Make corresponding get requests in front end on submission 
-### Salt and hash passwords
+## Give user feedback when interacting with components in NewSession form
 
 ### Design a front end for UserHome
 ### Design a front end for History
