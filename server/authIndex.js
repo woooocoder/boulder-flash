@@ -3,8 +3,9 @@ const cors = require('cors')
 const express = require('express')
 const mongoose = require('mongoose')
 
-const authServer = require('./routes/authServer')
-const port = 4000
+const authServer = require('./routes/authServer') 
+const port = process.env.AUTH_PORT || 4000
+
 const uri = process.env.DB_URL
 mongoose.connect(uri)
 const db = mongoose.connection
@@ -24,10 +25,8 @@ app.use(cors())
 
 app.use('/api/o/', authServer)
 
-
-
 // app.use('/api', seed)
-app.listen(process.env.AUTH_PORT || port, () => {
+app.listen(port, () => {
     console.log(`Listening on port ${port}`)
 })
 

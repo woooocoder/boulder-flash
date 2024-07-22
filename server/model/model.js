@@ -75,7 +75,7 @@
 // })
 
 // module.exports = mongoose.model('User', User) 
-const mongoose = require('mongoose');
+const mongoose = require('mongoose')
 const bcrypt = require('bcrypt')
 const ClimbSchema = new mongoose.Schema({ 
     title: {

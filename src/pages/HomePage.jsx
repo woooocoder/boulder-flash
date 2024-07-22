@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import Login from './../components/Login';
-import Signup from './../components/Signup';
+import Login from '../components/Login';
+import Signup from '../components/Signup';
 import { FaChartBar, FaUser, FaCamera, FaShare } from 'react-icons/fa';
 import { useMediaQuery } from '@mui/material';
-import BackToTop from './../components/BackToTop'
+import BackToTop from '../components/BackToTop'
 import Footer from '../components/Footer';
 const HomePage = () => {
     const [form, setForm] = useState(true);

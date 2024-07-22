@@ -27,7 +27,6 @@ const ThumbsUpDown = ( props ) => {
                         </>
                 </h1>
             }
-            
         </div>
     )
 }

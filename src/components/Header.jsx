@@ -15,32 +15,45 @@ import { Link } from '@mui/joy';
 
 import { GiFallingRocks } from 'react-icons/gi'
 
-const pages = [
-    { 
-        text: 'Home', 
-        link: '/'
-    }, 
-    {
-        text: 'About', 
-        link:'/roadmap'
-    }, 
-    {
-        text: 'Documentation', 
-        link:'/documentation' 
-    }
-];
-const settings = [
-    {
-        text: 'Profile',
-        link: '/app/profile'
-    },
-    {
-        text: 'Logout',
-        link: '/app/logout'
-    }
-];
-
 function Header() {
+  const pages = [
+      { 
+          text: 'Home', 
+          link: '/'
+      }, 
+      {
+          text: 'About', 
+          link:'/roadmap'
+      }, 
+      {
+          text: 'Documentation', 
+          link:'/documentation' 
+      }
+  ];
+
+  const handleLogout = () => {
+    localStorage.clear()
+    const response = fetch('http://localhost:4000/api/v/logout', {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+
+    if (response.ok) {
+      console.log('logged out successfully') 
+    }
+  }
+  const settings = [
+      {
+          text: 'Profile',
+          link: '/app/profile'
+      },
+      {
+          text: 'Logout',
+          link: '/app/logout'
+      }
+  ];
   const [anchorElNav, setAnchorElNav] = useState(null);
   const [anchorElUser, setAnchorElUser] = useState(null);
 

@@ -23,7 +23,7 @@ const Login = ({ toggleForm }) => {
       setSignInErr('Please enter your password.')
     } else {
       try {
-        const response = await fetch('http://localhost:5050/api/o/login', {
+        const response = await fetch('http://localhost:4000/api/o/login', {
           method: 'POST',
           headers: {
             'Accept': 'application/json',
@@ -38,8 +38,9 @@ const Login = ({ toggleForm }) => {
         const result = await response.json().catch(() => null)
         console.log(result)
         
-        if (response.ok) { 
-          localStorage.setItem('token', result.token)
+        if (response.ok) {  
+          localStorage.setItem('accessToken', result.accessToken)
+          localStorage.setItem('refreshToken', result.refreshToken)
           navigate('/app/userHome') // sign in 
         } else { 
           setSignInErr(result.err)

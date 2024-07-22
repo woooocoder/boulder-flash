@@ -80,7 +80,7 @@ const Signup = ({ toggleForm }) => {
     if (validData()) {
       setLoading(true)
       try {
-        const response = await fetch('http://localhost:5050/api/o/signUp', {
+        const response = await fetch('http://localhost:4000/api/o/signUp', {
           method: 'POST',
           headers: {
             'Accept': 'application/json',

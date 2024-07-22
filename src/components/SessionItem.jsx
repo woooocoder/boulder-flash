@@ -8,7 +8,7 @@ import { MoreHoriz, Bookmark, BookmarkBorder } from "@mui/icons-material";
 import Video from "./assets/Video";
 import ThumbsUpDown from "./assets/ThumbsUpDown";
 import Difficulty from "./assets/Difficulty";
-import { handleDate } from './../utils/'
+import { handleDate } from '../utils'
 
 const SessionItem = ({
     session,
