@@ -1,7 +1,7 @@
 import { useState, useCallback, useEffect } from 'react'
 import { IoFilterOutline } from 'react-icons/io5'
-import SessionCard from './../../components/session/SessionCard'
-import SessionStats from './../../components/session/SessionStats'
+import SessionCard from '../../components/session/SessionCard'
+import SessionStats from '../../components/session/SessionStats'
 import FilterMenu from '../../components/FilterMenu';
 const History = () => {
     const [sessions, setSessions] = useState([]);

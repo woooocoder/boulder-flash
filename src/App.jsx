@@ -11,10 +11,6 @@ import Stats from './pages/app/Stats'
 import Error from "./pages/404";
 import BackToTop from "./components/BackToTop";
 
-
-
-
-
 /*
 * Dark Blue->Light Blue
 * *222831 | *393E46 | *00ADB5

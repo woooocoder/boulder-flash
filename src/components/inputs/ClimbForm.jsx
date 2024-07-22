@@ -1,8 +1,8 @@
 import { Button, FormControl, FormHelperText, Input, Radio, RadioGroup, Textarea, Typography } from "@mui/joy";
 import { InfoOutlined } from "@mui/icons-material";
-import GymRatingSlider from "../../components/sessionForm/GymRatingSlider";
-import DifficultySelector from "../../components/assets/DifficultySelector";
-import VideoUploader from "../../components/assets/VideoUploader";
+import GymRatingSlider from "../sessionForm/GymRatingSlider";
+import DifficultySelector from "../assets/DifficultySelector";
+import VideoUploader from "../assets/VideoUploader";
 import { useMediaQuery } from "@mui/material";
 import { useState } from "react";
 

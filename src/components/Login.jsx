@@ -4,7 +4,7 @@ import validator from 'validator';
 import { useNavigate } from 'react-router-dom';
 const Login = ({ toggleForm }) => {
   const navigate = useNavigate()
-  const [signInErr, setSignInErr] = useState({})
+  const [signInErr, setSignInErr] = useState(null)
   const [form, setForm] = useState({
     email: '',
     password: ''
@@ -15,14 +15,6 @@ const Login = ({ toggleForm }) => {
     setForm({ ...form, [name]: value })
   }
 
-  const handleInvalidForm = (email, password) => {
-    if (password.length === 0) {
-      setSignInErr('Please enter your password')
-    } else if (!email) {
-      setSignInErr('Please enter a valid email address.') 
-    }
-  } 
-
   const handleSubmit = async (event) => {
     event.preventDefault()
     if (!validator.isEmail(form.email)) {
@@ -31,7 +23,7 @@ const Login = ({ toggleForm }) => {
       setSignInErr('Please enter your password.')
     } else {
       try {
-        const response = await fetch('http://localhost:5050/api/o/login', {
+        const response = await fetch('http://localhost:4000/api/o/login', {
           method: 'POST',
           headers: {
             'Accept': 'application/json',
@@ -43,18 +35,20 @@ const Login = ({ toggleForm }) => {
           })
         })
 
-        const json = await response.json()
-        console.log(json)
+        const result = await response.json().catch(() => null)
+        console.log(result)
         
-        if (response.ok) { 
-          localStorage.setItem('token', json.token)
+        if (response.ok) {  
+          localStorage.setItem('accessToken', result.accessToken)
+          localStorage.setItem('refreshToken', result.refreshToken)
           navigate('/app/userHome') // sign in 
         } else { 
-          setSignInErr(json.err)
-          console.error('Login Failed: ', json.err)
+          setSignInErr(result.err)
+          console.error('Login Failed: ', result.err)
         }
       } catch (e) {
         console.log(e)
+        setSignInErr('Oops! Internal error. Please try again in a few minutes.')
       }   
     } 
   }
@@ -79,7 +73,7 @@ const Login = ({ toggleForm }) => {
               display:'flex', justifyContent:'center'
             }}>
               <img 
-                src={`${process.env.PUBLIC_URL}/analysis/climbing.svg`} alt=''
+                src={`/analysis/climbing.svg`} alt=''
                 className='w-[80%]' 
               />
             </Box>

@@ -39,9 +39,9 @@
 
 // export default DifficultySelector;
 import { useState } from 'react'
-import Easy from './../difficulty/Easy'
-import Challenging from './../difficulty/Challenging'
-import Impossible from './../difficulty/Impossible'
+import Easy from '../difficulty/Easy'
+import Challenging from '../difficulty/Challenging'
+import Impossible from '../difficulty/Impossible'
 
 const DifficultySelector = ({ value, onChange }) => {
     const vals = [
