@@ -72,10 +72,7 @@ const Login = ({ toggleForm }) => {
             <Box sx={{
               display:'flex', justifyContent:'center'
             }}>
-              <img 
-                src={`/analysis/climbing.svg`} alt=''
-                className='w-[80%]' 
-              />
+              <img src='/analysis/climbing.svg' alt='' className='w-[80%]' />
             </Box>
             <div>
               <Typography level="h4" component="h1">

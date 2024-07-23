@@ -136,7 +136,7 @@ const Signup = ({ toggleForm }) => {
       >
         <Box sx={{ display: 'flex', justifyContent: 'center' }}>
           <img 
-            src={`./analysis/climbing.svg`} alt=''
+            src='./analysis/climbing.svg' alt=''
             className='w-[80%]' 
           />
         </Box>

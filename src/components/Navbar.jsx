@@ -32,12 +32,17 @@ const Navbar = () => {
     return !routes.some(route => route.path === path) ? null : (
         <BottomNavigation 
             value={value} 
+            color=""
             onChange={handleChange} 
-            className="flex items-center bg-[#54585c] rounded-full
-                       fixed bottom-[2%] left-1/2 transform -translate-x-1/2 w-[65%] z-50 px-[5%]">
+            sx={{
+                backgroundColor: '#f2f2f2',
+                '& .Mui-selected': {
+                  color: '#00adb4',  
+                }
+            }}
+            className="flex fixed bottom-0 shadow-lg left-1/2 transform -translate-x-1/2 w-full z-50 border-t-[1px]">
 
-            <BottomNavigationAction
-                label="Home"
+            <BottomNavigationAction 
                 value="userHome"
                 icon={<FaHome size={30} />}
                 component={Link}
@@ -45,24 +50,21 @@ const Navbar = () => {
             />
 
             <BottomNavigationAction 
-                className="text-nowrap"
-                label="New Session"
+                className="text-nowrap" 
                 value="newSession"
                 icon={<FiPlusCircle size={30} />}
                 component={Link}
                 to="/app/newSession"
             />
 
-            <BottomNavigationAction
-                label="History"
+            <BottomNavigationAction 
                 value="history"
                 icon={<MdHistory size={30} />}
                 component={Link}
                 to="/app/history"
             />
 
-            <BottomNavigationAction
-                label="Stats"
+            <BottomNavigationAction 
                 value="stats"
                 icon={<FaChartBar size={30} />}
                 component={Link}
