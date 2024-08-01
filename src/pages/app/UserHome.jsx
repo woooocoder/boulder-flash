@@ -4,6 +4,8 @@ import '../../styles.css'
 import ToggleSort from "../../components/assets/ToggleSort"; 
 import ToggleCheckbox from "../../components/assets/ToggleCheckbox";
 import { Button } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
+
 /**
  * @todo implement dialog on view, edit and delete
  *       https://mui.com/material-ui/react-dialog/
@@ -11,7 +13,7 @@ import { Button } from '@mui/material';
  */
 const UserHome = () => {
     const { user, setUser, token } = useFetchUser() 
-
+    const navigate = useNavigate()
     const Stat = ({value, title}) => {
         return (
             <div className="flex flex-col border-2 border-black border-opacity-5 rounded-lg px-4 py-2 items-start bg-black bg-opacity-5 hover:bg-[#00adb5] hover:bg-opacity-25">
@@ -24,6 +26,10 @@ const UserHome = () => {
                 </div>
             </div>
         )
+    }
+
+    const navigateToNewSession = () => {
+        navigate('/app/newSession')
     }
 
     const headerData = [
@@ -57,7 +63,9 @@ const UserHome = () => {
                                 Upload your first session
                             </div>
 
-                            <div className="text-sm font-light text-gray-400">
+                            <div 
+                                className="text-sm font-light text-gray-400"
+                                onClick={navigateToNewSession}>
                                 And share with friends!
                             </div>
                         </div>

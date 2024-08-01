@@ -35,16 +35,20 @@ const Navbar = () => {
             color=""
             onChange={handleChange} 
             sx={{
-                backgroundColor: '#f2f2f2',
+                backgroundColor: '#28303b',
                 '& .Mui-selected': {
                   color: '#00adb4',  
-                }
+                },
+                
             }}
-            className="flex fixed bottom-0 shadow-lg left-1/2 transform -translate-x-1/2 w-full z-50 border-t-[1px]">
+            className=" shadow-lime-700 shadow-lgflex fixed bottom-0 left-1/2 transform -translate-x-1/2 w-full z-50">
 
             <BottomNavigationAction 
                 value="userHome"
-                icon={<FaHome size={30} />}
+                icon={<FaHome 
+                    size={30} 
+                    className="shadow-lg"    
+                    />}
                 component={Link}
                 to="/app/userHome"
             />
@@ -52,21 +56,30 @@ const Navbar = () => {
             <BottomNavigationAction 
                 className="text-nowrap" 
                 value="newSession"
-                icon={<FiPlusCircle size={30} />}
+                icon={<FiPlusCircle
+                    size={30} 
+                    className="shadow-lg"
+                    />}
                 component={Link}
                 to="/app/newSession"
             />
 
             <BottomNavigationAction 
                 value="history"
-                icon={<MdHistory size={30} />}
+                icon={<MdHistory 
+                    size={30} 
+                    className="shadow-lg"
+                    />}
                 component={Link}
                 to="/app/history"
             />
 
             <BottomNavigationAction 
                 value="stats"
-                icon={<FaChartBar size={30} />}
+                icon={<FaChartBar 
+                    size={30} 
+                    className="shadow-lg"
+                    />}
                 component={Link}
                 to="/app/stats"
             />

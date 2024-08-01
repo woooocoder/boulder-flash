@@ -16,7 +16,7 @@ router.post('/token', (req, res) => {
         const accessToken = generateAccessToken({ name: user.name, id: user.id })
         res.json({ accessToken: accessToken })    
     })
-}) // pass a { token:<REFRESH_TOKEN> } and get a new <ACCESS_TOKEN>
+}) 
 
 
 // delete token from db
@@ -68,7 +68,7 @@ function generateAccessToken(user) {
     return jwt.sign(
         payload,
         process.env.JWT_SECRET,
-        { expiresIn: '1d'} // 1h
+        { expiresIn: '1d'} 
     )
 }
 
