@@ -8,43 +8,69 @@ import { SlGraph } from "react-icons/sl";
 import { LuMountain } from "react-icons/lu";
 import { TbDots } from "react-icons/tb";
 import Avatar from "@mui/material/Avatar";
-import { handleDate } from "./../utils/index";
+import {
+  calculateTotalCompletedAndFailedClimbs,
+  handleDate,
+} from "./../utils/index";
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
-import Aside from "./Aside";
 import ShareOutlinedIcon from "@mui/icons-material/ShareOutlined";
-import { AvatarGroup, IconButton } from "@mui/material";
+import { Button, IconButton } from "@mui/material";
 import {
   AddCircleOutlineOutlined,
   NotificationsNoneOutlined,
   PieChartOutlineOutlined,
 } from "@mui/icons-material";
-const Dashboard = ({ x }) => {
-  const name = "John Doe";
+import { useNavigate } from "react-router-dom";
+const Dashboard = () => {
+  const navigate = useNavigate()
+  var [user, setUser] = React.useState({});
+  const fetchUser = () => {
+    fetch("http://localhost:5050/api/getUser", {
+      method: "GET",
+    })
+      .then((res) => res.json())
+      .then((user) => {
+        JSON.stringify(user);
+        setUser(user);
+      })
+      .catch((e) => console.error("error fetching data", e));
+  };
+
+  React.useEffect(() => {
+    fetchUser();
+  }, []);
+
+  const climbCount = user.sessions
+    ? calculateTotalCompletedAndFailedClimbs(user.sessions)
+    : 0;
+
   const arr = [
     {
       tickerVal: "View",
       titleLogo: <IoMdPeople size={40} color="rgb(74 222 128)" />,
       title: "Followers",
-      titleVal: 263,
+      titleVal: user.followers | 0, // followers isn't implemented
     },
     {
       tickerVal: "View",
       titleLogo: <SlUserFollowing size={30} color="rgb(93 226 231)" />,
       title: "Following",
-      titleVal: 325,
+      titleVal: user.following | 0, // following isn't implemented
     },
     {
       tickerVal: "View",
       titleLogo: <GiMountainClimbing size={35} color="rgb(255 222 89)" />,
       title: "Climbs",
-      titleVal: 41,
+      titleVal: climbCount
+        ? climbCount.totalCompletedClimbs + climbCount.totalFailedClimbs
+        : 0,
     },
     {
       tickerIcon: <FaCaretUp size={20} />,
       tickerVal: 163,
       titleLogo: <FaEye size={40} color="rgb(204 108 231)" />,
       title: "Views",
-      titleVal: "1.4k",
+      titleVal: 0, // viewCount isn't implemented || number of play clicks on video
     },
   ];
 
@@ -56,7 +82,6 @@ const Dashboard = ({ x }) => {
             <div className="p-2 bg-[#222831] rounded-full w-min">
               <SlGraph size="30px" />
             </div>
-
             <div className="text-xl font-semibold ml-4">Overview</div>
           </div>
         </header>
@@ -65,12 +90,16 @@ const Dashboard = ({ x }) => {
           <div className="bg-[#1f2933] p-6 md:pl-[10vh] rounded-lg flex justify-between items-center py-[10vh] shadow-xl">
             <div className="flex items-center">
               <div className="mx-4 rounded-full">
-                <Avatar sx={{ height: 120, width: 120 }} />
+                <Avatar
+                  alt={`${user.name}`}
+                  src="#"
+                  sx={{ width: "120px", height: "120px" }}
+                />
               </div>
               <div className="flex flex-col items-center mx-4 space-y-[1vh]">
                 <div className="flex text-xl">
                   Hello,&nbsp;
-                  <div className="font-bold">{name}</div>
+                  <div className="font-bold">{user.name}</div>
                   {"!"}
                 </div>
                 <div className="flex items-center">
@@ -136,63 +165,63 @@ const Dashboard = ({ x }) => {
                   Recent Sessions
                 </div>
               </div>
-              {/* <div className='w-min'>
-                          {JSON.stringify(x.sessions)}
-                      </div> */}
+              {/* not currently the 3 most recent sessions listed */}
+              {user.sessions &&
+                user.sessions
+                  .slice(0, 3)
+                  .reverse()
+                  .map((session, index) => (
+                    <div
+                      key={index}
+                      className="bg-[#1f2933] p-4 rounded-lg flex flex-col shadow-xl"
+                    >
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center">
+                          <div className="p-2 rounded-full bg-[#3f4a5a]">
+                            <LuMountain />
+                          </div>
+                          <div className="ml-4 text-lg font-medium">
+                            {session.title}
+                          </div>
+                        </div>
 
-              {x.sessions.slice(0, 3).map((session, index) => (
-                <div
-                  key={index}
-                  className="bg-[#1f2933] p-4 rounded-lg flex flex-col shadow-xl"
-                >
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center">
-                      <div className="p-2 rounded-full bg-[#3f4a5a]">
-                        <LuMountain />
+                        <div className="flex justify-end">
+                          <TbDots size={30} />
+                        </div>
                       </div>
-                      <div className="ml-4 text-lg font-medium">
-                        {session.title}
+                      <div className="flex justify-between mt-4 ">
+                        <div>Icon: Pin =&gt; Google Maps API</div>
+                        {handleDate(session.date)}
+                      </div>
+
+                      <div className="flex justify-between mt-4">
+                        <div>Completed: {session.stats.num_completed}</div>
+                        <div>Failed: {session.stats.num_failed}</div>
+                        <div>Avg: V{session.stats.avg_difficulty}</div>
+                      </div>
+
+                      <div className="flex justify-end mt-4">
+                        <div className="mr-4 hover:bg-gray-800 transition-colors ease-in-out duration-300 rounded-full shadow-xl">
+                          <IconButton>
+                            <EditOutlinedIcon color="info" />
+                          </IconButton>
+                        </div>
+
+                        <div className="hover:bg-gray-800 transition-colors ease-in-out duration-300 rounded-full shadow-xl">
+                          <IconButton>
+                            <ShareOutlinedIcon color="info" />
+                          </IconButton>
+                        </div>
                       </div>
                     </div>
+                  ))}
 
-                    <div className="flex justify-end">
-                      <TbDots size={30} />
-                    </div>
-                  </div>
-                  <div className="flex justify-between mt-4 ">
-                    {" "}
-                    {/** completed | failed | avg rating */}
-                    <div>Icon: Pin =&gt; Google Maps API</div>
-                    {handleDate(session.date)}
-                  </div>
-
-                  <div className="flex justify-between mt-4">
-                    <div>numCompleted</div>
-
-                    <div>numFailed</div>
-
-                    <div>avgRating</div>
-                  </div>
-
-                  <div className="flex justify-end mt-4">
-                    <div className="mr-4 hover:bg-gray-800 transition-colors ease-in-out duration-300 rounded-full shadow-xl">
-                      <IconButton>
-                        <EditOutlinedIcon color="info" />
-                      </IconButton>
-                    </div>
-
-                    <div className="hover:bg-gray-800 transition-colors ease-in-out duration-300 rounded-full shadow-xl">
-                      <IconButton>
-                        <ShareOutlinedIcon color="info" />
-                      </IconButton>
-                    </div>
-                  </div>
-                </div>
-              ))}
-
-              <div className="bg-[#1f2933] p-4 rounded-lg flex flex-col mb-[5vh] h-min shadow-xl">
+              <Button
+                onClick={() => navigate('/app/history')} 
+                className="bg-[#1f2933] p-4 rounded-lg flex flex-col mb-[5vh] h-min shadow-xl hover:opacity-50 tranistion ease-in-out">
+                
                 See More Sessions
-              </div>
+              </Button>
 
               <div className="flex items-center shadow-xl w-min text-nowrap mb-8">
                 <div className="p-2 bg-[#222831] rounded-full w-min">
@@ -235,15 +264,17 @@ const Dashboard = ({ x }) => {
                       Liked Your Climb
                     </div>
 
-                    <div className="text-[#c6c6c6] font-medium">
-                      07/27/2024
-                    </div>
+                    <div className="text-[#c6c6c6] font-medium">07/27/2024</div>
                   </div>
                 </div>
 
                 <div className="bg-[#1f2933] rounded-lg flex p-4 shadow-xl">
                   <div className="w-min rounded-full shadow-lg">
-                    <Avatar alt="Cindy Baker" src="#" sx={{ width: "70px", height: "70px" }} />
+                    <Avatar
+                      alt="Cindy Baker"
+                      src="#"
+                      sx={{ width: "70px", height: "70px" }}
+                    />
                   </div>
 
                   <div className="ml-4 grid grid-rows-3">
@@ -256,15 +287,17 @@ const Dashboard = ({ x }) => {
                       Followed You
                     </div>
 
-                    <div className="text-[#c6c6c6] font-medium">
-                      07/25/2024
-                    </div>
+                    <div className="text-[#c6c6c6] font-medium">07/25/2024</div>
                   </div>
                 </div>
 
                 <div className=" bg-[#1f2933] rounded-lg flex p-4 shadow-xl">
                   <div className="w-min rounded-full shadow-lg">
-                    <Avatar alt="Travis Howard" src="#" sx={{ width: "70px", height: "70px" }} />
+                    <Avatar
+                      alt="Travis Howard"
+                      src="#"
+                      sx={{ width: "70px", height: "70px" }}
+                    />
                   </div>
 
                   <div className="ml-4 grid grid-rows-3">
@@ -277,11 +310,9 @@ const Dashboard = ({ x }) => {
                       Commented On Your Climb
                     </div>
 
-                    <div className="text-[#c6c6c6] font-medium">
-                      07/24/2024
-                    </div>
+                    <div className="text-[#c6c6c6] font-medium">07/24/2024</div>
                   </div>
-                </div> 
+                </div>
 
                 <div className="bg-[#1f2933] p-4 rounded-lg flex justify-between items-center">
                   See More Notifications

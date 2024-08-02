@@ -26,6 +26,16 @@ router.get('/getUser/:id', async (req, res) => {
     }
 })
 
+router.get('/getUser', async (req, res) => {
+    try {
+        const id = "66218395053c6a12f1868516"
+        const user = await User.findById(id)
+        res.json(user)  
+    } catch (e) {
+        response.send(500).json({message: e.message})
+    }
+})
+
 // Get all users
 router.get('/getAllUsers', async (req, res) => {
     try {
