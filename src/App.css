@@ -1,18 +1,7 @@
 .App {
   text-align: center;
 }
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
+ 
 .App-header {
   background-color: #282c34;
   min-height: 100vh;
@@ -23,16 +12,34 @@
   font-size: calc(10px + 2vmin);
   color: white;
 }
-
-.App-link {
-  color: #61dafb;
+ 
+ 
+.custom-scrollbar {
+  overflow: auto;
+  scrollbar-width: thin; /* For Firefox */
+  scrollbar-color: #00adb5 #222831; /* For Firefox */ 
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+/* Custom scrollbar styles for WebKit-based browsers */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 12px;
+}
+
+/* Remove scrollbar arrows in WebKit-based browsers */
+.custom-scrollbar::-webkit-scrollbar-button {
+  display: none;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: #222831;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background-color: #00adb5;
+  border-radius: 10px;
+  border: 3px solid #222831;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: #00adb5;
 }

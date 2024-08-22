@@ -11,7 +11,7 @@ import Avatar from "@mui/material/Avatar";
 import {
   calculateTotalCompletedAndFailedClimbs,
   handleDate,
-} from "./../utils/index";
+} from "../utils/index";
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import ShareOutlinedIcon from "@mui/icons-material/ShareOutlined";
 import { Button, IconButton } from "@mui/material";
@@ -21,8 +21,8 @@ import {
   PieChartOutlineOutlined,
 } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
-const Dashboard = () => {
-  const navigate = useNavigate()
+const DashboardGrid = ({ stats }) => {
+  const navigate = useNavigate();
   var [user, setUser] = React.useState({});
   const fetchUser = () => {
     fetch("http://localhost:5050/api/getUser", {
@@ -217,9 +217,9 @@ const Dashboard = () => {
                   ))}
 
               <Button
-                onClick={() => navigate('/app/history')} 
-                className="bg-[#1f2933] p-4 rounded-lg flex flex-col mb-[5vh] h-min shadow-xl hover:opacity-50 tranistion ease-in-out">
-                
+                onClick={() => navigate("/app/history")}
+                className="bg-[#1f2933] p-4 rounded-lg flex flex-col mb-[5vh] h-min shadow-xl hover:opacity-50 tranistion ease-in-out"
+              >
                 See More Sessions
               </Button>
 
@@ -230,9 +230,7 @@ const Dashboard = () => {
                 <div className="text-xl font-semibold ml-4">Stats</div>
               </div>
 
-              <div className="bg-[#222831] p-4 rounded-lg flex justify-between items-center">
-                {/* Placeholder content */}
-              </div>
+              {stats}
             </div>
             <div>
               <div className="flex flex-col space-y-[2vh] mb-[5vh]">
@@ -314,9 +312,12 @@ const Dashboard = () => {
                   </div>
                 </div>
 
-                <div className="bg-[#1f2933] p-4 rounded-lg flex justify-between items-center">
+                <Button
+                  onClick={() => navigate("/app/notifications")}
+                  className="bg-[#1f2933] p-4 rounded-lg flex flex-col mb-[5vh] h-min shadow-xl hover:opacity-50 tranistion ease-in-out w-min text-nowrap"
+                >
                   See More Notifications
-                </div>
+                </Button>
               </div>
               <div className="flex flex-col">
                 <div className="flex items-center shadow-xl w-min text-nowrap mb-8">
@@ -340,4 +341,4 @@ const Dashboard = () => {
   );
 };
 
-export default Dashboard;
+export default DashboardGrid;
