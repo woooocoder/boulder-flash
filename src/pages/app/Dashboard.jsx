@@ -228,19 +228,19 @@ const Dashboard = () => {
 
   const Statistics = () => (
     <div className="flex flex-col space-y-[2vh] mb-[5vh]">
-      <div className="bg-[#1f2933] p-4 rounded-lg flex justify-between items-center">
+      <div className="bg-[#1f2933] shadow-xl p-4 rounded-lg flex justify-between items-center">
         <h2 className="text-xl font-semibold text-[#c6c6c6]">
           Total Completed: {totalCompletedClimbs}
         </h2>
       </div>
 
-      <div className="bg-[#1f2933] p-4 rounded-lg flex justify-between items-center">
+      <div className="bg-[#1f2933] shadow-xl p-4 rounded-lg flex justify-between items-center">
         <h2 className="text-xl font-semibold text-[#c6c6c6]">
           Total Failed: {totalFailedClimbs}
         </h2>
       </div>
 
-      <div className="mb-8 bg-[#1f2933] rounded-lg p-4">
+      <div className="mb-8 bg-[#1f2933] rounded-lg shadow-xl p-4">
         <h2 className="text-xl font-semibold text-[#c6c6c6] mb-2">
           Climbs Attempted Per Difficulty
         </h2>
@@ -277,14 +277,14 @@ const Dashboard = () => {
           </h2>
         </div>
 
-        <div className="mb-8 bg-[#222831] rounded-lg p-4">
+        <div className="mb-8 bg-[#1f2933] rounded-lg p-4">
           <h2 className="text-xl font-semibold text-[#c6c6c6] mb-2">
             Completion Rate Per Difficulty
           </h2>
           <BarGraph data={completionByRating} />
         </div>
 
-        <div className="mb-8 bg-[#222831] rounded-lg p-4">
+        <div className="mb-8 bg-[#1f2933] rounded-lg p-4">
           <h1 className="text-xl font-semibold text-[#c6c6c6] mb-2">
             Average Session Time:{" "}
             {parseInt(avg_time) < 60

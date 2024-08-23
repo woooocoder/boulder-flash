@@ -24,10 +24,8 @@ const BackToTop = () => {
         return () => {
             window.removeEventListener('scroll', handleScroll);
         };
-    }, []);
-
-    debugger 
-
+    }, []); 
+    
     return (
         <div className='z-50'>
             {showButton && (

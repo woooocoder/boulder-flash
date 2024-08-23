@@ -25,7 +25,7 @@ import "./App.css";
 function App() {
   return (
     <BrowserRouter>
-      <div className="flex flex-col h-screen">
+      <div className="flex flex-col h-screen bg-[#161b22]">
         {/* <Aside /> */}
         <Header />
         <div className="flex-1 h-full custom-scrollbar overflow-auto">

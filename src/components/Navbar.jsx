@@ -30,6 +30,7 @@ const Navbar = () => {
     };
 
     return !routes.some(route => route.path === path) ? null : (
+        <>
         <BottomNavigation 
             value={value} 
             color=""
@@ -41,7 +42,7 @@ const Navbar = () => {
                 },
                 
             }}
-            className=" shadow-lime-700 shadow-lgflex fixed bottom-0 left-1/2 transform -translate-x-1/2 w-full z-50">
+            className="shadow-lg flex fixed bottom-0 left-1/2 transform -translate-x-1/2 w-full">
 
             <BottomNavigationAction 
                 value="userHome"
@@ -83,7 +84,9 @@ const Navbar = () => {
                 component={Link}
                 to="/app/stats"
             />
-        </BottomNavigation>
+        </BottomNavigation>  
+        <div className="h-[60px] bg-[#161b22]"></div>
+        </>
     );
 }
 

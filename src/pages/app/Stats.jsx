@@ -229,26 +229,26 @@ const Stats = () => {
   return (
     <div className="bg-[#161b22] pt-[10vh] grid grid-cols-1 md:grid-cols-2 space-y-[2vh] md:space-y-0 pb-[10vh]">
         <div className="flex flex-col space-y-[2vh] mx-[7vw]">
-            <div className="bg-[#1f2933] p-4 rounded-lg flex justify-between items-center">
+            <div className="bg-[#1f2933] shadow-xl p-4 rounded-lg flex justify-between items-center">
               <h2 className="text-xl font-semibold text-[#c6c6c6]">
                 Total Completed: {totalCompletedClimbs}
               </h2>
             </div>
 
-            <div className="bg-[#1f2933] p-4 rounded-lg flex justify-between items-center">
+            <div className="bg-[#1f2933] shadow-xl p-4 rounded-lg flex justify-between items-center">
               <h2 className="text-xl font-semibold text-[#c6c6c6]">
                 Total Failed: {totalFailedClimbs}
               </h2>
             </div>
 
-            <div className="bg-[#1f2933] rounded-lg p-4">
+            <div className="bg-[#1f2933] shadow-xl rounded-lg p-4">
               <h2 className="text-xl font-semibold text-[#c6c6c6] mb-2">
                 Climbs Attempted Per Difficulty
               </h2>
               <PieChart climbsByRating={climbsByRating} />
             </div>
 
-            <div className="bg-[#1f2933] rounded-lg p-4">
+            <div className="bg-[#1f2933] shadow-xl rounded-lg p-4">
               <h2 className="text-xl font-semibold text-[#c6c6c6] mb-2">
                 Total Completed vs Total Failed
               </h2>
@@ -260,26 +260,26 @@ const Stats = () => {
         </div>
 
         <div className="flex flex-col space-y-[2vh] mx-[7vw]">
-            <div className="bg-[#1f2933] rounded-lg p-4">
+            <div className="bg-[#1f2933] shadow-xl rounded-lg p-4">
               <h2 className="text-xl font-semibold text-[#c6c6c6]">
                 Avg Climb Rating: V{calculateAvgClimbRating()}
               </h2>
             </div>
 
-            <div className="bg-[#1f2933] rounded-lg p-4">
+            <div className="bg-[#1f2933]shadow-xl rounded-lg p-4">
               <h2 className="text-xl font-semibold text-[#c6c6c6]">
                 Average Climbs Per Session: {climbsPerSession.toFixed(0)}
               </h2>
             </div>
 
-            <div className="bg-[#1f2933] rounded-lg p-4">
+            <div className="bg-[#1f2933] shadow-xl rounded-lg p-4">
               <h2 className="text-xl font-semibold text-[#c6c6c6] mb-2">
                 Completion Rate Per Difficulty
               </h2>
               <BarGraph data={completionByRating} />
             </div>
 
-            <div className="bg-[#1f2933] rounded-lg p-4">
+            <div className="bg-[#1f2933] shadow-xl rounded-lg p-4">
               <h1 className="text-xl font-semibold text-[#c6c6c6] mb-2">
                 Average Session Time:{" "}
                 {parseInt(avg_time) < 60

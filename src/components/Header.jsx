@@ -62,7 +62,7 @@ function Header() {
   const location = window.location.pathname
 
   return (
-    <div className='bg-[#222831]'>
+    <div className='bg-inherit'>
     <AppBar position="static" className='rounded-full' sx={{ backgroundColor: '#00adb5'}}>
       <Container maxWidth="xl">
         <Toolbar disableGutters>
