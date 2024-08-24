@@ -1,18 +1,14 @@
-# Current Task
-## Give user feedback when interacting with components in NewSession form
+# Tasks 
 
-## Short Term
-### Set up back end functionality for login and signup forms. Make corresponding get requests in front end on submission 
-### Salt and hash passwords
+### Add front end functionality to allow users to follow/unfollow each other :: how will they be accessible to each other? Search usernames? ID? 
 
-### Design a front end for UserHome
-### Design a front end for History
+### Implement global feed. Users can add climbs to feed. They will display in chronological order. Maybe give users a way to interact with them.
 
-## Long Term
-### Allow users to add other users as friends
-### A feed that users can share a climb to (globally or to friends). Other users can like and comment
-### A user friendly stats page. Better visuals. 
+### Design a front end for History - Sessions are being displayed no problem, layout is hideous though. Should be a grid or something. 
 
+### A page that generates and displays statistics based on sessions  
+
+-------------------------------------------------------------------------------------------------------------
 # How to install project 
 ## Clone the Repo
 `git clone https://github.com/woooocoder/boulder-flash`
