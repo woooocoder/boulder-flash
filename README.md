@@ -1,12 +1,12 @@
 # Tasks 
 
-### Add front end functionality to allow users to follow/unfollow each other :: how will they be accessible to each other? Search usernames? ID? 
+* Add front end functionality to allow users to follow/unfollow each other :: how will they be accessible to each other? Search usernames? ID? 
 
-### Implement global feed. Users can add climbs to feed. They will display in chronological order. Maybe give users a way to interact with them.
+* Implement global feed. Users can add climbs to feed. They will display in chronological order. Maybe give users a way to interact with them.
 
-### Design a front end for History - Sessions are being displayed no problem, layout is hideous though. Should be a grid or something. 
+* Design a front end for History - Sessions are being displayed no problem, layout is hideous though. Should be a grid or something. 
 
-### A page that generates and displays statistics based on sessions  
+* A page that generates and displays statistics based on sessions  
 
 -------------------------------------------------------------------------------------------------------------
 # How to install project 
