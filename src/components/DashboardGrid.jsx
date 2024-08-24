@@ -17,10 +17,12 @@ import ShareOutlinedIcon from "@mui/icons-material/ShareOutlined";
 import { Button, IconButton } from "@mui/material";
 import {
   AddCircleOutlineOutlined,
+  LocationOn,
   NotificationsNoneOutlined,
   PieChartOutlineOutlined,
 } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
+import CarouselTransition from "./assets/CarouselTransition";
 const DashboardGrid = ({ stats }) => {
   const navigate = useNavigate();
   var [user, setUser] = React.useState({});
@@ -189,9 +191,17 @@ const DashboardGrid = ({ stats }) => {
                           <TbDots size={30} />
                         </div>
                       </div>
-                      <div className="flex justify-between mt-4 ">
-                        <div>Icon: Pin =&gt; Google Maps API</div>
+                      <div className="flex justify-between text-sm mt-[1vh]">
+                        <div className="flex items-center">
+                          <LocationOn />
+                          <div>
+                            {session.location || 'ABC Rock Climbing Gym'}
+                          </div>
+                        </div>
                         {handleDate(session.date)}
+                      </div>
+                      <div className="flex flex-col justify-between mt-4 ">
+                        <CarouselTransition climbs={session.climbs} />
                       </div>
 
                       <div className="flex justify-between mt-4">
