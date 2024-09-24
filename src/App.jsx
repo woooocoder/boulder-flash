@@ -28,7 +28,7 @@ function App() {
       <div className="flex flex-col h-screen bg-[#161b22]">
         {/* <Aside /> */}
         <Header />
-        <div className="flex-1 h-full custom-scrollbar overflow-auto">
+        <div className="flex-1 h-full custom-scrollbar overflow-auto overscroll-none">
           <Routes>
             <Route index path="/" element={<HomePage />} />
             <Route path="/roadmap" element={<Roadmap />} />
