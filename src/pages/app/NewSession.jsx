@@ -88,12 +88,12 @@ const NewSession = () => {
             ]
         }));
 
-        setHoldsState(prevData => ({
-            ...prevData,
-            [sessionData.climbs.length]: {
+        // setHoldsState(prevData => ({
+        //     ...prevData,
+        //     [sessionData.climbs.length]: {
                 
-            }
-        }))
+        //     }
+        // }))
     };
 
     const handleGymRatingChange = (index, change) => {
@@ -142,7 +142,28 @@ const NewSession = () => {
     };
 
     /** @todo */
-    const setHoldsState = () => -1
+    // {
+    //     style: 'Jugs',
+    //     index: 4,
+    //     rotation: '-rotate-90'
+    // },
+    // {
+    //     style: 'Crimps',
+    //     index: 1,
+    //     rotation: '-rotate-90'
+
+    // },
+    // {
+    //     style: 'Slopers',
+    //     index: 5,
+    //     rotation: 'rotate-180'
+    // },
+    // {
+    //     style: 'Pinches',
+    //     index: 8,
+    //     rotation: '-rotate-[10deg]'
+    // }
+    // setHoldsState(() => -1)
 
     const handleHoldChange = (index, hold) => {
         const climbs = [...sessionData.climbs];
@@ -354,7 +375,9 @@ const NewSession = () => {
                             other={sessionData.startTime}
                         />
                     </div>
-        
+                    { /** 
+                        @todo
+                    */}
                     { sessionData.climbs.map((climb, index) => (
                         <div key={index} className="rounded-lg p-[2vh] space-y-[2vh]">
                             <div className="border-t-2 my-[6vh]"></div>
@@ -444,10 +467,10 @@ const NewSession = () => {
                                                 onClick={() => handleStyleChange(index, style)}
                                                 color=""
                                             >   
-                                                <img 
+                                                {/* <img 
                                                     src={`${process.env.PUBLIC_URL}/${style.toLowerCase()}.svg`} 
                                                     className="w-[3vw]"     
-                                                />
+                                                /> */}
                                                 <div>{style}</div>
                                             </Button>
                                     ))}
@@ -486,7 +509,7 @@ const NewSession = () => {
                                             color=""
                                         >
                                             <img
-                                                src={`${process.env.PUBLIC_URL}/holds/hold${hold.index}.svg`}
+                                                src={`${import.meta.env.BASE_URL}/holds/hold${hold.index}.svg`}
                                                 className={`w-[3vw] ${hold.rotation}`}
                                             />
 
@@ -557,6 +580,7 @@ const NewSession = () => {
                         <Button 
                             variant="solid" 
                             startDecorator={<Add />}
+                            // onClick={addClimbForm}
                             onClick={addClimbForm}
                         >
                             Add A Climb
