@@ -185,10 +185,24 @@ const NewSession = () => {
         console.log(holdsSet)
     };
 
+    const [styleToggles, setStyleToggles] = useState(
+        ['Overhang', 'Vertical', 'Slab'].map(() => ({ toggled: false }))
+    );
+
+    /**
+     * @todo extend toggler state to holds
+     * @param {*} index 
+     * @param {*} style 
+     */
     const handleStyleChange = (index, style) => {
+        const updatedToggles = [...styleToggles] 
+        updatedToggles[index].toggled = !updatedToggles[index].toggled
+
+        setStyleToggles(updatedToggles)
+         
         handleClimbInputChange(index, { 
             target: 
-                { 
+                {  
                     name: 'style',
                     value: style
                 }
@@ -350,7 +364,7 @@ const NewSession = () => {
         <div className={`${isSmallScreen ? 'mx-0' : 'mx-[10%]'} lg:mx-[15%] shadow-lg rounded-lg px-[5%]`}>
             <div className="mt-[8vh] font-mono rounded-lg p-[1vh]">
                 <h1 className="text-2xl tracking-wider font-semibold border-2 
-                rounded-lg w-min px-3 py-1 bg-inherit inline">
+                rounded-lg w-min px-3 py-1 bg-inherit inline text-[#c6c6c6]">
                     New Session
                 </h1>
                 <form onSubmit={handleSubmit} className="flex-col space-y-[2vh] mt-[2vh]"> 
@@ -379,7 +393,7 @@ const NewSession = () => {
                         @todo
                     */}
                     { sessionData.climbs.map((climb, index) => (
-                        <div key={index} className="rounded-lg p-[2vh] space-y-[2vh]">
+                        <div key={index} className="rounded-lg py-[2vh] space-y-[2vh]">
                             <div className="border-t-2 my-[6vh]"></div>
                             <div className="flex justify-between">
                                 <div className="font-semibold text-lg opacity-80">
@@ -388,7 +402,7 @@ const NewSession = () => {
                               
 
                                 <Button 
-                                    variant="outlined" 
+                                    variant="plain" 
                                     color="danger"
                                     onClick={() => deleteClimb(index)}>
                                     Delete
@@ -459,9 +473,10 @@ const NewSession = () => {
                                 <div className="font-semibold text-lg text-[#c6c6c6]">Style</div>
                                 <div className="flex justify-center space-x-[2vw]">
                                     { 
-                                        ['Overhang', 'Vertical', 'Slab'].map((style) => (
+                                        ['Overhang', 'Vertical', 'Slab'].map((style, i) => (
                                             <Button
-                                                className="flex flex-col items-center shadow-lg"
+                                                className={`flex flex-col items-center shadow-lg 
+                                                `}
                                                 key={style}
                                                 name={style}
                                                 onClick={() => handleStyleChange(index, style)}
