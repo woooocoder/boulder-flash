@@ -467,10 +467,10 @@ const NewSession = () => {
                                                 onClick={() => handleStyleChange(index, style)}
                                                 color=""
                                             >   
-                                                {/* <img 
-                                                    src={`${process.env.PUBLIC_URL}/${style.toLowerCase()}.svg`} 
+                                                <img 
+                                                    src={`${import.meta.env.PUBLIC_URL}/${style.toLowerCase()}.svg`} 
                                                     className="w-[3vw]"     
-                                                /> */}
+                                                />
                                                 <div>{style}</div>
                                             </Button>
                                     ))}
