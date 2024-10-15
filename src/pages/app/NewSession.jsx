@@ -396,7 +396,7 @@ const NewSession = () => {
                         <div key={index} className="rounded-lg py-[2vh] space-y-[2vh]">
                             <div className="border-t-2 my-[6vh]"></div>
                             <div className="flex justify-between">
-                                <div className="font-semibold text-lg opacity-80">
+                                <div className="font-semibold text-lg opacity-80 text-[#c6c6c6]">
                                     Climb {index + 1}
                                 </div>
                               
@@ -515,7 +515,7 @@ const NewSession = () => {
                                             index: 8,
                                             rotation: '-rotate-[10deg]'
                                         }
-                                    ].map((hold) => (
+                                    ].map((hold, index) => (
                                         <Button
                                             className="flex flex-col items-center shadow-lg"
                                             key={hold}

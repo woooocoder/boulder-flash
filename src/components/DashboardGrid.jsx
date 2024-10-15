@@ -338,9 +338,25 @@ const DashboardGrid = ({ stats }) => {
                     Create a New Session
                   </div>
                 </div>
-                <div className="bg-[#222831] p-4 rounded-lg flex justify-between items-center">
-                  Form Component Here
+                <div className="bg-[#222831] p-4 rounded-lg flex flex-col space-y-[1vh] justify-between items-center">
+                  {/* Form Component Here */}
                   {/* Placeholder content */}
+                  <div>
+                    <label for="title" >
+                      <div className="font-semibold">Session Title</div>
+                      <input id="title" min={1} max={25} title="Title" className="px-4 rounded-lg border-2 border-[#c5c5c5] bg-[#2a313c] mb-2" />
+                    </label>
+
+                    <label for="date">
+                      <div className="font-semibold">Session Date</div>
+                      <input id="date" type="date" title="date" className="px-4 rounded-lg border-2 border-[#c5c5c5] bg-[#2a313c] mb-6"></input>
+                    </label>
+
+                    
+                  </div>
+                  
+
+
                 </div>
               </div>
             </div>

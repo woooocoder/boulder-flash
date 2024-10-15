@@ -170,7 +170,7 @@ const History = () => {
 
   const SessionCard = ({session}) => {
     return (
-        <div className="flex flex-col space-y-[1rem]"> 
+        <div className="flex flex-col space-y-[1rem] text-white"> 
             <div className="flex items-center">
                 <div className="p-2 rounded-full bg-[#3f4a5a]">
                     <LuMountain />

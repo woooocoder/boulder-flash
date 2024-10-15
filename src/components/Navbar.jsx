@@ -36,11 +36,10 @@ const Navbar = () => {
             color=""
             onChange={handleChange} 
             sx={{
-                backgroundColor: '#28303b',
+                backgroundColor: '#161b22',
                 '& .Mui-selected': {
-                  color: '#00adb4',  
-                },
-                
+                  color: '#00adb5',  
+                },        
             }}
             className="shadow-lg flex fixed bottom-0 left-1/2 transform -translate-x-1/2 w-full">
 
