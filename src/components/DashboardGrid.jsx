@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { FaCaretUp, FaEye, FaUnlock, FaGlobeAmericas } from "react-icons/fa";
 import { IoIosSettings, IoMdPeople } from "react-icons/io";
 import { SlUserFollowing } from "react-icons/sl";
@@ -75,6 +75,11 @@ const DashboardGrid = ({ stats }) => {
       titleVal: 0, // viewCount isn't implemented || number of play clicks on video
     },
   ];
+
+  const [visiblePopup, setVisiblePopup] = useState(null)
+  const togglePopup = (index) => {
+    setVisiblePopup(visiblePopup === index ? null : index)
+  }
 
   return (
     <div className="flex h-auto bg-[#161b22] text-white px-[5vw]">
@@ -188,8 +193,20 @@ const DashboardGrid = ({ stats }) => {
                         </div>
 
                         <div className="flex justify-end">
-                          <TbDots size={30} />
+                          <TbDots size={30} onClick={ () => togglePopup(index) } />
                         </div>
+
+                        { visiblePopup === index && (
+                          <ul className="absolute top-12 right-0 bg-[#3f4a5a] text-white shadow-lg rounded-md p-2 w-40 z-50">
+                            <li className="p-2 hover:bg-[#00adb5] cursor-pointer">
+                              Edit Session
+                            </li>
+
+                            <li className="p-2 hover:bg-[#00adb5] cursor-pointer">
+                              Delete Session
+                            </li>
+                          </ul>
+                        )}
                       </div>
                       <div className="flex justify-between text-sm mt-[1vh]">
                         <div className="flex items-center">
